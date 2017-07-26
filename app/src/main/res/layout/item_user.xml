@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:padding="@dimen/activity_horizontal_margin">
+
+    <com.jobease.www.jobease.Utilities.RoundedImageView
+        android:id="@+id/rv_userImage"
+        android:layout_width="@dimen/avatar_dimensions"
+        android:layout_height="@dimen/avatar_dimensions"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:src="@drawable/ic_menu_camera" />
+
+    <TextView
+        android:id="@+id/tv_userName"
+        style="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/rv_userImage"
+        android:layout_toRightOf="@+id/rv_userImage"
+        android:text="jahsjahsjas" />
+
+    <TextView
+        android:id="@+id/tv_user_location"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_userName"
+        android:layout_toEndOf="@+id/rv_userImage"
+        android:layout_toRightOf="@+id/rv_userImage"
+        android:text="jahsjahsjas"
+        android:textColor="@android:color/black" />
+
+    <android.support.v7.widget.AppCompatRatingBar
+        android:id="@+id/rating_bar"
+        style="?android:attr/ratingBarStyleIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_user_location"
+        android:layout_toEndOf="@+id/rv_userImage"
+        android:layout_toRightOf="@+id/rv_userImage"
+        android:isIndicator="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_menu_manage" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/rating_bar"
+        android:layout_marginTop="@dimen/small"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:text="@string/call" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="@dimen/button_height"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:text="@string/hire" />
+    </LinearLayout>
+
+
+</RelativeLayout>

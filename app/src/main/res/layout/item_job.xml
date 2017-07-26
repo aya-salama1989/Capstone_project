@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_height"
+    android:gravity="center_vertical">
+
+    <com.jobease.www.jobease.Utilities.RoundedImageView
+        android:id="@+id/rv_userImage"
+        android:layout_width="@dimen/avatar_dimensions"
+        android:layout_height="@dimen/avatar_dimensions"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:src="@drawable/ic_menu_camera" />
+
+    <TextView
+        android:id="@+id/tv_userName"
+        style="?android:attr/textAppearance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/rv_userImage"
+        android:layout_toRightOf="@+id/rv_userImage"
+        android:text="jahsjahsjas" />
+
+    <TextView
+        android:id="@+id/tv_jobTitle"
+        style="?android:attr/textAppearanceMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_userName"
+        android:layout_toEndOf="@+id/rv_userImage"
+        android:layout_toRightOf="@+id/rv_userImage"
+        android:text="jahsjahsjas"
+        android:textColor="@android:color/black" />
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_menu_manage" />
+
+    <TextView
+        android:id="@+id/tv_jobLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_jobTitle"
+        android:layout_toEndOf="@+id/rv_userImage"
+        android:layout_toRightOf="@+id/rv_userImage"
+        android:text="jahsjahsjas" />
+
+    <TextView
+        android:id="@+id/tv_jobDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_jobLocation"
+        android:layout_toEndOf="@+id/rv_userImage"
+        android:layout_toRightOf="@+id/rv_userImage"
+        android:inputType="textMultiLine"
+        android:maxLines="3"
+        android:text="jahsjahsjas" />
+</RelativeLayout>
