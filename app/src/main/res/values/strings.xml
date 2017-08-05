@@ -15,4 +15,19 @@
     <string name="facebook_app_id">1703427006620380</string>
     <string name="fb_login_protocol_scheme">fb1703427006620380</string>
     <string name="something_went_wrong">Something went wrong, Login canceled</string>
+    <string name="phone">Phone Number</string>
+    <string name="birth_date">Birth Date</string>
+    <string name="done">Done</string>
+    <string name="empty_field">Can not be empty</string>
+    <string name="invalid_date_format">Invalid Birth Date</string>
+    <string name="minor">Users must be 13+ years old</string>
+    <string name="title_location_permission">Test title</string>
+    <string name="text_location_permission">Texst Text brdo</string>
+    <string name="ok">Ok</string>
+
+
+    <string name="home">Home</string>
+    <string name="profile">Profile</string>
+    <string name="appliers">Appliers</string>
+    <string name="sign_out"></string>
 </resources>

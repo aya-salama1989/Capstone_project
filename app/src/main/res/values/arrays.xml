@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <integer-array name="home_images">
+        <item>@drawable/ic_menu_manage</item>
+        <item>@drawable/ic_menu_manage</item>
+        <item>@drawable/ic_menu_manage</item>
+        <item>@drawable/ic_menu_manage</item>
+    </integer-array>
+
+    <string-array name="home_texts">
+        <item>@string/home</item>
+        <item>@string/profile</item>
+        <item>@string/appliers</item>
+        <item>@string/sign_out</item>
+    </string-array>
+
+
+</resources>

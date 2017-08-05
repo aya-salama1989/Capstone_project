@@ -52,38 +52,38 @@ public class UserSettings {
     }
 
     public void setCurrency(Context context, String userToken) {
-        sharedPreferences = context.getSharedPreferences("userBirthDate", MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("currency", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         editor.putString("currency", userToken);
         editor.commit();
     }
 
     public String getCurrency(Context context) {
-        sharedPreferences = context.getSharedPreferences("userBirthDate", MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("currency", MODE_PRIVATE);
         return sharedPreferences.getString("currency", "");
     }
 
     public void setAddress(Context context, String userToken) {
-        sharedPreferences = context.getSharedPreferences("userBirthDate", MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("address", MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        editor.putString("currency", userToken);
+        editor.putString("address", userToken);
         editor.commit();
     }
 
     public String getAddress(Context context) {
-        sharedPreferences = context.getSharedPreferences("userBirthDate", MODE_PRIVATE);
-        return sharedPreferences.getString("currency", "");
+        sharedPreferences = context.getSharedPreferences("address", MODE_PRIVATE);
+        return sharedPreferences.getString("address", "");
     }
 
     public void setPhone(Context context, String userToken) {
-        sharedPreferences = context.getSharedPreferences("userBirthDate", MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("phone", MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        editor.putString("currency", userToken);
+        editor.putString("phone", userToken);
         editor.commit();
     }
 
     public String getPhone(Context context) {
-        sharedPreferences = context.getSharedPreferences("userBirthDate", MODE_PRIVATE);
-        return sharedPreferences.getString("currency", "");
+        sharedPreferences = context.getSharedPreferences("phone", MODE_PRIVATE);
+        return sharedPreferences.getString("phone", "");
     }
 }

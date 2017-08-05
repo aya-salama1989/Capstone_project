@@ -1,6 +1,8 @@
 package com.jobease.www.jobease.fragments;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,29 +10,31 @@ import android.view.ViewGroup;
 
 import com.jobease.www.jobease.R;
 
+import butterknife.BindView;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * interface
  * to handle interaction events.
- * Use the {@link JobsFragment#newInstance} factory method to
+ * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class JobsFragment extends Fragment {
-    public static final int FRAGMENT_JOBS = 1;
-
+public class HomeFragment extends Fragment {
+    public static final int FRAGMENT_HOME = 0;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
 //    private OnFragmentInteractionListener mListener;
 
-    public JobsFragment() {
+    public HomeFragment() {
         // Required empty public constructor
     }
 
@@ -40,11 +44,11 @@ public class JobsFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment JobsFragment.
+     * @return A new instance of fragment HomeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static JobsFragment newInstance(String param1, String param2) {
-        JobsFragment fragment = new JobsFragment();
+    public static HomeFragment newInstance(String param1, String param2) {
+        HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -65,7 +69,11 @@ public class JobsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_jobs, container, false);
+//        fab.setOnClickListener((View view) -> {
+//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                    .setAction("Action", null).show();
+//        });
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
 //    // TODO: Rename method, update argument and hook method into UI event
@@ -74,7 +82,7 @@ public class JobsFragment extends Fragment {
 //            mListener.onFragmentInteraction(uri);
 //        }
 //    }
-//
+
 //    @Override
 //    public void onAttach(Context context) {
 //        super.onAttach(context);
