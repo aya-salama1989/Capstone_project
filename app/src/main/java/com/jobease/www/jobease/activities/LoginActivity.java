@@ -1,13 +1,9 @@
 package com.jobease.www.jobease.activities;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,7 +13,6 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -28,11 +23,6 @@ import com.jobease.www.jobease.R;
 import com.jobease.www.jobease.Utilities.Logging;
 import com.jobease.www.jobease.models.User;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import static android.support.v7.appcompat.R.id.info;
-
 public class LoginActivity extends AppCompatActivity {
     private final String TAG = getClass().getName().toString();
     private CallbackManager callbackManager;
@@ -42,27 +32,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-//        try {
-//            PackageInfo info = getPackageManager().getPackageInfo("com.jobease.www.jobease", PackageManager.GET_SIGNATURES);
-//            for (Signature signature : info.signatures) {
-//                MessageDigest md;
-//                md = MessageDigest.getInstance("SHA");
-//                md.update(signature.toByteArray());
-//                String something = new String(Base64.encode(md.digest(), 0));
-//                //String something = new String(Base64.encodeBytes(md.digest()));
-//                Log.e("hash key", something);
-//            }
-//        } catch (PackageManager.NameNotFoundException e1) {
-//            Log.e("name not found", e1.toString());
-//        } catch (NoSuchAlgorithmException e) {
-//            Log.e("no such an algorithm", e.toString());
-//        } catch (Exception e) {
-//            Log.e("exception", e.toString());
-//        }
-
         initViews();
-
     }
 
     @Override
@@ -110,26 +80,28 @@ public class LoginActivity extends AppCompatActivity {
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, (@NonNull Task<AuthResult> task)-> {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                    Toast.LENGTH_SHORT).show();
-                            updateUI(null);
-                        }
-
+                .addOnCompleteListener(this, (@NonNull Task<AuthResult> task) -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        updateUI(user);
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                Toast.LENGTH_SHORT).show();
+                        updateUI(null);
+                    }
                 });
     }
 
     private void updateUI(FirebaseUser user) {
-        User mainUser = new User();
-        mainUser.setName(user.getDisplayName());
-        mainUser.setImage(user.getPhotoUrl().toString());
-        Intent intent = new Intent(this, UserDataActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("userData", mainUser);
-        startActivity(intent);
+        if (user != null) {
+            User mainUser = new User();
+            mainUser.setName(user.getDisplayName());
+            mainUser.setImage(user.getPhotoUrl().toString());
+            Intent intent = new Intent(this, UserDataActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("userData", mainUser);
+            startActivity(intent);
+        }
+
     }
 }

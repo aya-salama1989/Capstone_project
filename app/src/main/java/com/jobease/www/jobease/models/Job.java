@@ -1,5 +1,7 @@
 package com.jobease.www.jobease.models;
 
+import android.graphics.drawable.Drawable;
+
 /**
  * Created by Dell on 21/07/2017.
  */
@@ -19,7 +21,24 @@ public class Job {
     private boolean isApplied;
     private boolean isReported;
     private Users appliedUsers;
+    private String userImage;
+    private String userName;
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
+    }
 
     public Users getAppliedUsers() {
         return appliedUsers;

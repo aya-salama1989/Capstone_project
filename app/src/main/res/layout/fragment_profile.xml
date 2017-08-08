@@ -1,13 +1,87 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.jobease.www.jobease.fragments.ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_above="@+id/layour_statistics"
+        android:gravity="center"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <com.jobease.www.jobease.Utilities.RoundedImageView
+            android:id="@+id/profile_iv_image"
+            android:layout_width="@dimen/avatar_dimensions"
+            android:layout_height="@dimen/avatar_dimensions"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:background="@color/colorPrimaryLight" />
+
+        <TextView
+            android:id="@+id/profile_tv_name"
+            style="?android:attr/textAppearanceLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+
+            tools:text="USer Name here" />
+
+        <TextView
+            android:id="@+id/profile_tv_phone"
+            style="?android:attr/textAppearanceMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            tools:text="USer Phone here" />
+
+        <RatingBar
+            android:id="@+id/ratingBar"
+            style="?android:attr/ratingBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layour_statistics"
+        android:layout_width="match_parent"
+        android:layout_height="?android:actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_appliesr"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/appliers_placeHolder"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/tv_reports"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/flags_placeHolder"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/tv_posts"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/posts_placeHolder"
+            android:textAppearance="?android:attr/textAppearance"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+</RelativeLayout>

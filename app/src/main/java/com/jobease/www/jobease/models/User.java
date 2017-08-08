@@ -3,6 +3,8 @@ package com.jobease.www.jobease.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONObject;
+
 /**
  * Created by Dell on 21/07/2017.
  */
@@ -26,13 +28,26 @@ public class User implements Parcelable {
     private String image;
     private String name;
     private String birthDate;
+    private String userPhone;
     private long rating;
     private int noPosts;
     private int noFlags;
     private String address;
-    private long longitude;
-    private long latitude;
+    private double longitude;
+    private double latitude;
     private boolean isFlaged;
+
+    public User(JSONObject jsonObject) {
+
+    }
+
+    public String getUserPhone() {
+        return userPhone;
+    }
+
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
+    }
 
     public User(Parcel in) {
         image = in.readString();
@@ -42,9 +57,10 @@ public class User implements Parcelable {
         noPosts = in.readInt();
         noFlags = in.readInt();
         address = in.readString();
-        longitude = in.readLong();
-        latitude = in.readLong();
+        longitude = in.readDouble();
+        latitude = in.readDouble();
         isFlaged = in.readByte() != 0;
+        userPhone = in.readString();
     }
 
     public static Creator<User> getCREATOR() {
@@ -107,19 +123,19 @@ public class User implements Parcelable {
         this.address = address;
     }
 
-    public long getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(long longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public long getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(long latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
@@ -145,8 +161,9 @@ public class User implements Parcelable {
         dest.writeInt(noPosts);
         dest.writeInt(noFlags);
         dest.writeString(address);
-        dest.writeLong(longitude);
-        dest.writeLong(latitude);
+        dest.writeDouble(longitude);
+        dest.writeDouble(latitude);
+        dest.writeString(userPhone);
         dest.writeByte((byte) (isFlaged ? 1 : 0));
     }
 }

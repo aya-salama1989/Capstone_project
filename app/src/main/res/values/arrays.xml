@@ -3,16 +3,19 @@
 
 
     <integer-array name="home_images">
-        <item>@drawable/ic_menu_manage</item>
-        <item>@drawable/ic_menu_manage</item>
-        <item>@drawable/ic_menu_manage</item>
-        <item>@drawable/ic_menu_manage</item>
+        <item>@drawable/ic_home</item>
+        <item>@drawable/ic_person</item>
+        <item>@drawable/ic_people</item>
+        <item>@drawable/ic_work</item>
+        <item>@drawable/ic_power_settings_new</item>
+
     </integer-array>
 
     <string-array name="home_texts">
         <item>@string/home</item>
         <item>@string/profile</item>
         <item>@string/appliers</item>
+        <item>@string/posted_jobs</item>
         <item>@string/sign_out</item>
     </string-array>
 

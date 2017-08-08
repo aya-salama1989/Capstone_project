@@ -5,12 +5,10 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -19,9 +17,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.jobease.www.jobease.R;
+import com.jobease.www.jobease.Utilities.AppSettings;
 import com.jobease.www.jobease.Utilities.Logging;
 import com.jobease.www.jobease.Utilities.RoundedImageView;
 import com.jobease.www.jobease.Utilities.UserSettings;
@@ -41,10 +41,11 @@ import butterknife.ButterKnife;
 
 import static com.jobease.www.jobease.Utilities.DateUtils.getCurrentDeviceDate;
 import static com.jobease.www.jobease.Utilities.DateUtils.getDiffYears;
+import static com.jobease.www.jobease.Utilities.Utilities.createAlertDialogue;
+import static com.jobease.www.jobease.database.FireBaseDataBaseHelper.createUser;
 
 public class UserDataActivity extends AppCompatActivity
-        implements DatePickerDialog.OnDateSetListener,
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+        implements DatePickerDialog.OnDateSetListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
     private static final int PERMISSION_GET_LOCATION = 1;
     @BindView(R.id.img_user)
@@ -62,14 +63,28 @@ public class UserDataActivity extends AppCompatActivity
     GoogleApiClient mGoogleApiClient;
     private User user;
     private int _birthYear, _month, _day;
+    private UserSettings userSettings = new UserSettings();
+    private AppSettings appSettings = new AppSettings();
+    private double longitude, latitude;
+
+    private FusedLocationProviderClient mFusedLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_data);
         ButterKnife.bind(this);
+
+        if (!appSettings.getIsFirstLogin(this)) {
+            Intent intent = new Intent(this, HomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        }
         getData();
         bindViews();
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
     }
 
@@ -100,29 +115,32 @@ public class UserDataActivity extends AppCompatActivity
             } else if (etBirthDate.getText().toString().trim().isEmpty()) {
                 etBirthDate.setError(getString(R.string.empty_field));
             } else {
-                new UserSettings().setPhone(this, etPhoneNumber.getText().toString().trim());
-                new UserSettings().setUserBirthDate(this, etBirthDate.getText().toString().trim());
+                new AppSettings().setIsFirstLogin(this, false);
+                userSettings.setPhone(this, etPhoneNumber.getText().toString().trim());
+                userSettings.setUserBirthDate(this, etBirthDate.getText().toString().trim());
+                if (user != null) {
+                    user.setBirthDate(userSettings.getUserBirthDate(this));
+                    user.setUserPhone(userSettings.getPhone(this));
+                    user.setLatitude(latitude);
+                    user.setLongitude(longitude);
+                }
+
+                createUser(user, this);
                 Intent intent = new Intent(UserDataActivity.this, HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-                finish();
+                UserDataActivity.this.finish();
             }
-
         });
 
         imgBtn.setOnClickListener((View v) -> {
             getUserLocation();
-//            mGoogleApiClient = new GoogleApiClient.Builder(this)
-//                    .addApi(LocationServices.API)
-//                    .addConnectionCallbacks(this)
-//                    .addOnConnectionFailedListener(this)
-//                    .build();
-//            mGoogleApiClient.connect();
         });
     }
 
+
     private void getData() {
-        if (getIntent().getExtras().getParcelable("userData") != null) {
+        if (getIntent().getExtras() != null) {
             user = getIntent().getExtras().getParcelable("userData");
         }
     }
@@ -159,87 +177,56 @@ public class UserDataActivity extends AppCompatActivity
             }
 
         } catch (ParseException e) {
-            e.printStackTrace();
+            Logging.log(e.getMessage());
         }
     }
 
-    private boolean getUserLocation() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
+    private void getUserLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.title_location_permission)
-                        .setMessage(R.string.text_location_permission)
-                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                //Prompt the user once explanation has been shown
-                                ActivityCompat.requestPermissions(UserDataActivity.this,
-                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                        PERMISSION_GET_LOCATION);
-                            }
-                        })
-                        .create()
-                        .show();
-            } else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        PERMISSION_GET_LOCATION);
-            }
-            return false;
+            ActivityCompat.requestPermissions(UserDataActivity.this,
+                    new String[]{"android.permission.ACCESS_FINE_LOCATION"},
+                    PERMISSION_GET_LOCATION);
+            return;
         } else {
-            return true;
+            mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, (Location location) -> {
+                        if (location != null) {
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
+                        }
+                    });
         }
-    }
 
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        Logging.log("connected");
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-        Logging.log("suspend");
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Logging.log("failed");
-        mGoogleApiClient.connect();
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_GET_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
+                                           @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_GET_LOCATION) {
+            for (int i = 0; i < permissions.length; i++) {
+                String permission = permissions[i];
+                int grantResult = grantResults[i];
+                if (permission.equals(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                        Logging.longToast(UserDataActivity.this, getString(R.string.permission_granted));
+                    } else {
+                        createAlertDialogue(UserDataActivity.this, getString(R.string.permission_request),
+                                getString(R.string.please_allow),
+                                getString(R.string.no),
+                                (DialogInterface dialog, int which) -> {
+                                    dialog.dismiss();
+                                }
+                                , getString(R.string.ok),
+                                (DialogInterface dialog, int which) -> {
+                                    ActivityCompat.requestPermissions(UserDataActivity.this,
+                                            new String[]{"android.permission.ACCESS_FINE_LOCATION"},
+                                            PERMISSION_GET_LOCATION);
+                                });
+                    }
                 }
-                return;
             }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
         }
     }
 }

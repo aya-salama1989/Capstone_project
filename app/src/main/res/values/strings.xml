@@ -29,5 +29,14 @@
     <string name="home">Home</string>
     <string name="profile">Profile</string>
     <string name="appliers">Appliers</string>
+    <string name="posted_jobs">Posted Jobs</string>
     <string name="sign_out"></string>
+    <string name="set_location">Click button to support you with the nearest available tasks to your fine location</string>
+    <string name="appliers_placeHolder">%1$s\nApplied</string>
+    <string name="flags_placeHolder">%1$s\nReport</string>
+    <string name="posts_placeHolder">%1$s\nPost</string>
+    <string name="permission_granted">Location detection permission granted</string>
+    <string name="please_allow">Pleas allow JobEase to detect your fine location in order to provide you with the nearest jobs available to your current physical location</string>
+    <string name="permission_request">Permission Request</string>
+    <string name="no">No</string>
 </resources>

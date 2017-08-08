@@ -17,7 +17,7 @@ import com.jobease.www.jobease.R;
  * create an instance of this fragment.
  */
 public class JobsFragment extends Fragment {
-    public static final int FRAGMENT_JOBS = 1;
+    public static final int FRAGMENT_JOBS = 3;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
