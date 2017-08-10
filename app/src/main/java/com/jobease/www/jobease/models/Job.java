@@ -3,7 +3,9 @@ package com.jobease.www.jobease.models;
 /**
  * Created by Dell on 21/07/2017.
  */
-
+/*
+@JsonIgnoreProperties(ignoreUnknown = true)
+*/
 public class Job {
 
     private String title;

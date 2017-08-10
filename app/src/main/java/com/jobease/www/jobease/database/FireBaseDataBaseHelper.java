@@ -8,10 +8,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jobease.www.jobease.Utilities.Logging;
 import com.jobease.www.jobease.Utilities.UserSettings;
 import com.jobease.www.jobease.models.Job;
+import com.jobease.www.jobease.models.Jobs;
 import com.jobease.www.jobease.models.User;
 import com.jobease.www.jobease.models.Users;
+
+import java.util.Iterator;
 
 /**
  * Created by Dell on 23/07/2017.
@@ -78,12 +82,20 @@ public class FireBaseDataBaseHelper {
         }
     }
 
-    public static void getAllJobs() {
+    public static Jobs getAllJobs() {
+
+        Jobs jobs = new Jobs();
+        postsDBRef = getDataBaseReference("posts").getRef();
 
         postsDBRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Job job = dataSnapshot.getValue(Job.class);
+                for (DataSnapshot jobSnapshot: dataSnapshot.getChildren()) {
+                    // TODO: handle the post
+                    String key = jobSnapshot.getKey();
+                    Job job =(Job) jobSnapshot.child(key).getValue();
+                    jobs.add(job);
+                }
             }
 
             @Override
@@ -91,6 +103,8 @@ public class FireBaseDataBaseHelper {
                 Log.i(getClass().getName().toString(), ": " + databaseError.getMessage());
             }
         });
+
+        return jobs;
     }
 
     public static Users getAllAppliedUsers() {

@@ -4,30 +4,31 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.jobease.www.jobease.R;
 import com.jobease.www.jobease.activities.AddJobActivity;
+import com.jobease.www.jobease.adapters.JobsRecyclerAdapter;
+import com.jobease.www.jobease.models.Jobs;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * interface
- * to handle interaction events.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class HomeFragment extends Fragment {
+import static com.jobease.www.jobease.database.FireBaseDataBaseHelper.getAllJobs;
+
+
+public class HomeFragment extends Fragment implements JobsRecyclerAdapter.JobClickListener {
+
     public static final int FRAGMENT_HOME = 0;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    @BindView(R.id.rv_jobs)
+    RecyclerView recyclerView;
     @BindView(R.id.fab)
     FloatingActionButton fab;
     // TODO: Rename and change types of parameters
@@ -70,20 +71,27 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, v);
-        fab.setOnClickListener((View view) -> {
-
-            Intent intent = new Intent(getActivity(), AddJobActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                    .setAction("Action", null).show();
-        });
+        Jobs jobs = getAllJobs();
+        bindViews();
         return v;
     }
 
 
+    private void bindViews() {
+//        JobsRecyclerAdapter jobsRecyclerAdapter = new JobsRecyclerAdapter(,this);
+//        recyclerView.setAdapter(jobsRecyclerAdapter);
+        fab.setOnClickListener((View view) -> {
+            Intent intent = new Intent(getActivity(), AddJobActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        });
+    }
+
+
+    @Override
+    public void onJobClick(int Type, int position) {
+
+    }
 }
