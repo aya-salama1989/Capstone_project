@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.jobease.www.jobease.R;
@@ -27,6 +26,9 @@ import com.jobease.www.jobease.Utilities.RoundedImageView;
 import com.jobease.www.jobease.Utilities.UserSettings;
 import com.jobease.www.jobease.models.User;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -43,6 +45,7 @@ import static com.jobease.www.jobease.Utilities.DateUtils.getCurrentDeviceDate;
 import static com.jobease.www.jobease.Utilities.DateUtils.getDiffYears;
 import static com.jobease.www.jobease.Utilities.Utilities.createAlertDialogue;
 import static com.jobease.www.jobease.database.FireBaseDataBaseHelper.createUser;
+import static com.jobease.www.jobease.database.FireBaseDataBaseHelper.getUser;
 
 public class UserDataActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener, ActivityCompat.OnRequestPermissionsResultCallback {
@@ -60,7 +63,6 @@ public class UserDataActivity extends AppCompatActivity
     Button btnDone;
     @BindView(R.id.btn_detect_location)
     ImageButton imgBtn;
-    GoogleApiClient mGoogleApiClient;
     private User user;
     private int _birthYear, _month, _day;
     private UserSettings userSettings = new UserSettings();
@@ -74,7 +76,6 @@ public class UserDataActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_data);
         ButterKnife.bind(this);
-
         if (!appSettings.getIsFirstLogin(this)) {
             Intent intent = new Intent(this, HomeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -124,7 +125,6 @@ public class UserDataActivity extends AppCompatActivity
                     user.setLatitude(latitude);
                     user.setLongitude(longitude);
                 }
-
                 createUser(user, this);
                 Intent intent = new Intent(UserDataActivity.this, HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -141,7 +141,16 @@ public class UserDataActivity extends AppCompatActivity
 
     private void getData() {
         if (getIntent().getExtras() != null) {
-            user = getIntent().getExtras().getParcelable("userData");
+            String userString = getIntent().getStringExtra("userData");
+            user = new User();
+            try {
+                JSONObject jsonObject = new JSONObject(userString);
+                user.setName(jsonObject.getString("name"));
+                user.setImage(jsonObject.getString("image"));
+                user.setUid(jsonObject.getString("uid"));
+            } catch (JSONException e) {
+                Logging.log(e.getMessage());
+            }
         }
     }
 
@@ -156,7 +165,7 @@ public class UserDataActivity extends AppCompatActivity
     // updates the date in the birth date EditText
     private void updateDisplay() {
         StringBuilder pickedDate = new StringBuilder()
-                .append(_month).append("-").append(_day).append("-").append(_birthYear).append(" ");
+                .append(_month).append("-").append(_day).append("-").append(_birthYear);
 
         DateFormat format = new SimpleDateFormat("MM-dd-yyyy", Locale.ENGLISH);
         Date currentDate = null, picked = null;

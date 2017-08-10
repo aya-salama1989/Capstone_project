@@ -1,7 +1,5 @@
 package com.jobease.www.jobease.models;
 
-import android.graphics.drawable.Drawable;
-
 /**
  * Created by Dell on 21/07/2017.
  */
@@ -16,10 +14,12 @@ public class Job {
     private long longitude;
     private long latitude;
     private long rating;
-    private int userId;
+    private String userId;
     private int noOfWorkers;
     private boolean isApplied;
     private boolean isReported;
+    private int noOfRaters;
+    private int noOfReports;
     private Users appliedUsers;
     private String userImage;
     private String userName;
@@ -112,11 +112,11 @@ public class Job {
         this.rating = rating;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

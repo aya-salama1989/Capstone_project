@@ -19,11 +19,12 @@ import com.jobease.www.jobease.models.Users;
 
 public class FireBaseDataBaseHelper {
     static DatabaseReference postsDBRef, usersDBRef;
+    static FirebaseDatabase firebaseDatabase;
+    private static User user;
 
     public static FirebaseDatabase getFireBaseDataBaseInstance() {
         //DB instantiated
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        firebaseDatabase.setPersistenceEnabled(true);
+        firebaseDatabase = FirebaseDatabase.getInstance();
         return firebaseDatabase;
     }
 
@@ -35,18 +36,46 @@ public class FireBaseDataBaseHelper {
     public static void createUser(User user, Activity activity) {
         //User is created and pushed to the DB
 
-        usersDBRef = getDataBaseReference("users").push();
+        usersDBRef = getDataBaseReference("users").child(user.getUid());
         usersDBRef.setValue(user);
+        firebaseDatabase.setPersistenceEnabled(true);
 
         //User UniqueId is retrieved and set.
-        new UserSettings().setUserID(activity, usersDBRef.getKey());
+        new UserSettings().setUserID(activity, user.getUid());
     }
 
-    public static void createJob(Job job) {
+    public static User getUser(String uid) {
+        //User is created and pushed to the DB
+        usersDBRef = getDataBaseReference("users").getRef();
+
+        usersDBRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                user = dataSnapshot.getValue(User.class);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.i(getClass().getName().toString(), ": " + databaseError.getMessage());
+            }
+        });
+        return user;
+    }
+
+    public static boolean createJob(Job job) {
         //Job  created and pushed to the DB
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         postsDBRef = firebaseDatabase.getReference("posts").push();
+        //TODO: return something proving success
+
         postsDBRef.setValue(job);
+        if (postsDBRef.getKey() == null) {
+            return false;
+        } else if (postsDBRef.getKey().isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public static void getAllJobs() {
@@ -54,7 +83,7 @@ public class FireBaseDataBaseHelper {
         postsDBRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                dataSnapshot.getValue(Job.class);
+                Job job = dataSnapshot.getValue(Job.class);
             }
 
             @Override
@@ -65,7 +94,6 @@ public class FireBaseDataBaseHelper {
     }
 
     public static Users getAllAppliedUsers() {
-
         return new Users();
     }
 

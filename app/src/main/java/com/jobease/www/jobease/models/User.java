@@ -9,22 +9,9 @@ import org.json.JSONObject;
  * Created by Dell on 21/07/2017.
  */
 
-public class User implements Parcelable {
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
+public class User  {
 
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
-
-    public User() {
-    }
-
+    private String uid;
     private String image;
     private String name;
     private String birthDate;
@@ -37,8 +24,21 @@ public class User implements Parcelable {
     private double latitude;
     private boolean isFlaged;
 
+    public User() {
+    }
+
     public User(JSONObject jsonObject) {
 
+    }
+
+
+
+    public String  getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getUserPhone() {
@@ -47,24 +47,6 @@ public class User implements Parcelable {
 
     public void setUserPhone(String userPhone) {
         this.userPhone = userPhone;
-    }
-
-    public User(Parcel in) {
-        image = in.readString();
-        name = in.readString();
-        birthDate = in.readString();
-        rating = in.readLong();
-        noPosts = in.readInt();
-        noFlags = in.readInt();
-        address = in.readString();
-        longitude = in.readDouble();
-        latitude = in.readDouble();
-        isFlaged = in.readByte() != 0;
-        userPhone = in.readString();
-    }
-
-    public static Creator<User> getCREATOR() {
-        return CREATOR;
     }
 
     public String getImage() {
@@ -147,23 +129,6 @@ public class User implements Parcelable {
         isFlaged = flaged;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(image);
-        dest.writeString(name);
-        dest.writeString(birthDate);
-        dest.writeLong(rating);
-        dest.writeInt(noPosts);
-        dest.writeInt(noFlags);
-        dest.writeString(address);
-        dest.writeDouble(longitude);
-        dest.writeDouble(latitude);
-        dest.writeString(userPhone);
-        dest.writeByte((byte) (isFlaged ? 1 : 0));
-    }
+
 }

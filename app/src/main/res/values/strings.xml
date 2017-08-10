@@ -12,7 +12,7 @@
     <string name="call">Call</string>
     <string name="hire">Hire</string>
 
-    <string name="facebook_app_id">1703427006620380</string>
+    <string name="facebook_app_id">111241006176908</string>
     <string name="fb_login_protocol_scheme">fb1703427006620380</string>
     <string name="something_went_wrong">Something went wrong, Login canceled</string>
     <string name="phone">Phone Number</string>
@@ -39,4 +39,13 @@
     <string name="please_allow">Pleas allow JobEase to detect your fine location in order to provide you with the nearest jobs available to your current physical location</string>
     <string name="permission_request">Permission Request</string>
     <string name="no">No</string>
+    <string name="add">Add</string>
+    <string name="job_title">Job Title</string>
+    <string name="salary">Salary</string>
+    <string name="currency">Currency</string>
+    <string name="address">Address</string>
+    <string name="no_workers">Number Of Workers</string>
+    <string name="descriotion">Description</string>
+    <string name="cant_zero">Can\'t have zero workers?!</string>
+    <string name="add_job">Add New Job</string>
 </resources>

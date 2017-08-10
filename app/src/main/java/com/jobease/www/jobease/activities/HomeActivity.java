@@ -1,6 +1,7 @@
 package com.jobease.www.jobease.activities;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -46,6 +47,7 @@ public class HomeActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
 
+        getFragment(FRAGMENT_HOME);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -56,7 +58,15 @@ public class HomeActivity extends AppCompatActivity
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(sideMenuRecyclerAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                drawer.openDrawer(GravityCompat.START);
+            }
+        }, 800);
     }
+
 
     @Override
     public void onBackPressed() {
@@ -67,11 +77,11 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
-    }
+//    @Override
+//    public boolean onSupportNavigateUp() {
+//        onBackPressed();
+//        return true;
+//    }
 
 
     @Override
@@ -90,7 +100,7 @@ public class HomeActivity extends AppCompatActivity
                 getFragment(FRAGMENT_JOBS);
                 break;
             case 4:
-//TODO: Logout App
+//TODO: Logout App unAuth user
                 break;
             default:
         }

@@ -43,9 +43,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/white"
                 android:hint="@string/phone"
-                android:inputType="number"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white" />
+                android:inputType="number" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -60,9 +58,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/white"
                 android:hint="@string/birth_date"
-                android:inputType="date"
-                android:textColor="@android:color/white"
-                android:textColorHint="@android:color/white" />
+                android:inputType="date" />
         </android.support.design.widget.TextInputLayout>
 
         <ImageButton
@@ -73,11 +69,12 @@
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_detect_location" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/set_location"/>
+            android:text="@string/set_location" />
 
     </LinearLayout>
 

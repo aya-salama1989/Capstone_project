@@ -1,9 +1,13 @@
 package com.jobease.www.jobease.activities;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -19,9 +23,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.gson.Gson;
 import com.jobease.www.jobease.R;
 import com.jobease.www.jobease.Utilities.Logging;
 import com.jobease.www.jobease.models.User;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class LoginActivity extends AppCompatActivity {
     private final String TAG = getClass().getName().toString();
@@ -32,6 +40,23 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo("com.jobease.www.jobease", PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md;
+                md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                String something = new String(Base64.encode(md.digest(), 0));
+                //String something = new String(Base64.encodeBytes(md.digest()));
+                Log.e("hash key", something);
+            }
+        } catch (PackageManager.NameNotFoundException e1) {
+            Log.e("name not found", e1.toString());
+        } catch (NoSuchAlgorithmException e) {
+            Log.e("no such an algorithm", e.toString());
+        } catch (Exception e) {
+            Log.e("exception", e.toString());
+        }
         initViews();
     }
 
@@ -63,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(FacebookException exception) {
-                Logging.shortToast(LoginActivity.this, exception.getMessage());
+                Logging.log(exception.getMessage());
             }
         });
     }
@@ -97,9 +122,11 @@ public class LoginActivity extends AppCompatActivity {
             User mainUser = new User();
             mainUser.setName(user.getDisplayName());
             mainUser.setImage(user.getPhotoUrl().toString());
+            mainUser.setUid(user.getUid());
             Intent intent = new Intent(this, UserDataActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("userData", mainUser);
+
+            intent.putExtra("userData", new Gson().toJson(mainUser).toString());
             startActivity(intent);
         }
 
