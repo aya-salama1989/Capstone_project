@@ -93,7 +93,7 @@ public class FireBaseDataBaseHelper {
                 for (DataSnapshot jobSnapshot: dataSnapshot.getChildren()) {
                     // TODO: handle the post
                     String key = jobSnapshot.getKey();
-                    Job job =(Job) jobSnapshot.child(key).getValue();
+                    Job job =(Job) jobSnapshot.child(key).getValue(Job.class);
                     jobs.add(job);
                 }
             }
