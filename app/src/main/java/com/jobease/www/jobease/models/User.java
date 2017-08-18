@@ -1,14 +1,14 @@
 package com.jobease.www.jobease.models;
 
 
-
 import org.json.JSONObject;
 
 /**
  * Created by Dell on 21/07/2017.
  */
 
-public class User  {
+
+public class User {
 
     private String uid;
     private String image;
@@ -31,8 +31,7 @@ public class User  {
     }
 
 
-
-    public String  getUid() {
+    public String getUid() {
         return uid;
     }
 
@@ -127,7 +126,6 @@ public class User  {
     public void setFlaged(boolean flaged) {
         isFlaged = flaged;
     }
-
 
 
 }

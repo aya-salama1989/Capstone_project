@@ -111,7 +111,6 @@ public class UsersRecyclerAdapter extends RecyclerView.Adapter<UsersRecyclerAdap
                     break;
                 default:
                     userClickListener.onUserClickListener(ITEM_CLICK, getAdapterPosition());
-
             }
         }
     }

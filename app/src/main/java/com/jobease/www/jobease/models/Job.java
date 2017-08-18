@@ -1,5 +1,6 @@
 package com.jobease.www.jobease.models;
 
+import com.google.firebase.database.IgnoreExtraProperties;
 import com.jobease.www.jobease.Utilities.Logging;
 
 import org.json.JSONException;
@@ -15,9 +16,7 @@ import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown = true)
 */
 
-/*
 @IgnoreExtraProperties
-*/
 public class Job {
 
     public Map<String, User> appliedUsers = new HashMap<>();

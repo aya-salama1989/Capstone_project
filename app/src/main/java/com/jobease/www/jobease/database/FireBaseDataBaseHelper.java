@@ -24,7 +24,6 @@ import java.util.ArrayList;
 public class FireBaseDataBaseHelper {
     static DatabaseReference postsDBRef, usersDBRef;
     static FirebaseDatabase firebaseDatabase;
-    private static User user;
 
     public static FirebaseDatabase getFireBaseDataBaseInstance() {
         //DB instantiated
@@ -50,13 +49,14 @@ public class FireBaseDataBaseHelper {
 
     public static void getUser(String uid, UserGettingListener userGettingListener) {
         //User is created and pushed to the DB
-        usersDBRef = getDataBaseReference("users").getRef();
+        usersDBRef = getDataBaseReference("users").child(uid);
         usersDBRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                user = dataSnapshot.getValue(User.class);
+                User user = dataSnapshot.getValue(User.class);
                 userGettingListener.onUserGot(user);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.i(getClass().getName().toString(), ": " + databaseError.getMessage());
@@ -87,19 +87,24 @@ public class FireBaseDataBaseHelper {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 ArrayList<Job> jobs = new ArrayList<>();
+                Logging.log("" + dataSnapshot.getValue());
                 Job job = dataSnapshot.getValue(Job.class);
                 jobs.add(job);
                 jobsDataChangeListener.onJobsDataChange(jobs, 1);
             }
+
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
             }
+
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
             }
+
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.i(getClass().getName().toString(), ": " + databaseError.getMessage());
@@ -132,7 +137,9 @@ public class FireBaseDataBaseHelper {
 
     public static void applyToAJob(Job job, User user) {
         //TODO: add/ edit users list
-        getDataBaseReference("posts").child(job.getJobId()).child("appliedUsers").setValue(user);
+        User mUser = user;
+        String btngan = user.getUid();
+        getDataBaseReference("posts").child(job.getJobId()).child("appliedUsers").child(btngan).setValue(user);
     }
 
     public static Users getAllAppliedUsers() {
@@ -144,7 +151,7 @@ public class FireBaseDataBaseHelper {
         void onJobsDataChange(ArrayList<Job> jobs, int type);
     }
 
-    public interface UserGettingListener{
+    public interface UserGettingListener {
         void onUserGot(User user);
     }
 
