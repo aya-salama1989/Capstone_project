@@ -48,4 +48,14 @@
     <string name="descriotion">Description</string>
     <string name="cant_zero">Can\'t have zero workers?!</string>
     <string name="add_job">Add New Job</string>
+
+
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="dismiss">Dismiss</string>
+
+    <string name="report">Report</string>
+    <string name="rate">Rate</string>
+    <string name="apply">Apply</string>
+    <string name="edit_job">Edit Job</string>
 </resources>

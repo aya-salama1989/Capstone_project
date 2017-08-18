@@ -19,5 +19,18 @@
         <item>@string/sign_out</item>
     </string-array>
 
+    <string-array name="poster_actions" >
+        <item>@string/edit</item>
+        <item>@string/delete</item>
+        <item>@string/dismiss</item>
+    </string-array>
+
+    <string-array name="seeker_actions" >
+        <item>@string/report</item>
+        <item>@string/rate</item>
+        <item>@string/apply</item>
+        <item>@string/dismiss</item>
+    </string-array>
+
 
 </resources>

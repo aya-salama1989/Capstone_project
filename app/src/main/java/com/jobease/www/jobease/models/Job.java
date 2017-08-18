@@ -1,13 +1,26 @@
 package com.jobease.www.jobease.models;
 
+import com.jobease.www.jobease.Utilities.Logging;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Dell on 21/07/2017.
  */
 /*
 @JsonIgnoreProperties(ignoreUnknown = true)
 */
+
+/*
+@IgnoreExtraProperties
+*/
 public class Job {
 
+    public Map<String, User> appliedUsers = new HashMap<>();
     private String title;
     private String salary;
     private String currency;
@@ -17,14 +30,114 @@ public class Job {
     private long latitude;
     private long rating;
     private String userId;
+    private String jobId;
     private int noOfWorkers;
     private boolean isApplied;
     private boolean isReported;
     private int noOfRaters;
     private int noOfReports;
-    private Users appliedUsers;
     private String userImage;
     private String userName;
+
+
+    public Map<String, User> getAppliedUsers() {
+        return appliedUsers;
+    }
+
+    public void setAppliedUsers(Map<String, User> appliedUsers) {
+        this.appliedUsers = appliedUsers;
+    }
+
+    public Job() {
+    }
+
+    public Job(JSONObject jsonObject) {
+        try {
+            if (jsonObject.has("longitude")) {
+                longitude = jsonObject.getLong("longitude");
+            }
+            if (jsonObject.has("latitude")) {
+                latitude = jsonObject.getLong("latitude");
+            }
+            if (jsonObject.has("rating")) {
+                rating = jsonObject.getLong("rating");
+            }
+            if (jsonObject.has("noOfWorkers")) {
+                noOfWorkers = jsonObject.getInt("noOfWorkers");
+            }
+            if (jsonObject.has("noOfRaters")) {
+                noOfRaters = jsonObject.getInt("noOfRaters");
+            }
+            if (jsonObject.has("noOfReports")) {
+                noOfReports = jsonObject.getInt("noOfReports");
+            }
+
+            if (jsonObject.has("isApplied")) {
+                isApplied = jsonObject.getBoolean("isApplied");
+            }
+            if (jsonObject.has("isReported")) {
+                isReported = jsonObject.getBoolean("isReported");
+            }
+            if (jsonObject.has("address")) {
+                address = jsonObject.getString("address");
+            }
+            if (jsonObject.has("title")) {
+                title = jsonObject.getString("title");
+            }
+            if (jsonObject.has("salary")) {
+                salary = jsonObject.getString("salary");
+            }
+            if (jsonObject.has("currency")) {
+                currency = jsonObject.getString("currency");
+            }
+            if (jsonObject.has("description")) {
+                description = jsonObject.getString("description");
+            }
+            if (jsonObject.has("userId")) {
+                userId = jsonObject.getString("userId");
+            }
+            if (jsonObject.has("jobId")) {
+                jobId = jsonObject.getString("jobId");
+            }
+            if (jsonObject.has("userImage")) {
+                userImage = jsonObject.getString("userImage");
+            }
+            if (jsonObject.has("userName")) {
+                userName = jsonObject.getString("userName");
+            }
+
+
+        } catch (JSONException jsonException) {
+            Logging.log(jsonException.getMessage());
+        }
+
+    }
+
+
+
+    public String getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(String jobId) {
+        this.jobId = jobId;
+    }
+
+    public int getNoOfRaters() {
+        return noOfRaters;
+    }
+
+    public void setNoOfRaters(int noOfRaters) {
+        this.noOfRaters = noOfRaters;
+    }
+
+    public int getNoOfReports() {
+        return noOfReports;
+    }
+
+    public void setNoOfReports(int noOfReports) {
+        this.noOfReports = noOfReports;
+    }
 
     public String getUserName() {
         return userName;
@@ -42,13 +155,6 @@ public class Job {
         this.userImage = userImage;
     }
 
-    public Users getAppliedUsers() {
-        return appliedUsers;
-    }
-
-    public void setAppliedUsers(Users appliedUsers) {
-        this.appliedUsers = appliedUsers;
-    }
 
     public String getTitle() {
         return title;

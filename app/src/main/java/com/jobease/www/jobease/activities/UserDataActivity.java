@@ -110,6 +110,7 @@ public class UserDataActivity extends AppCompatActivity
             Picasso.with(this).load(user.getImage()).into(roundedImageView);
             txtVueUserName.setText(user.getName());
         }
+
         btnDone.setOnClickListener((View v) -> {
             if (etPhoneNumber.getText().toString().trim().isEmpty()) {
                 etPhoneNumber.setError(getString(R.string.empty_field));

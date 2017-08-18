@@ -1,7 +1,6 @@
 package com.jobease.www.jobease.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+
 
 import org.json.JSONObject;
 

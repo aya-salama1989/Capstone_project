@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/activity_horizontal_margin"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:padding="@dimen/activity_horizontal_margin">
 
     <com.jobease.www.jobease.Utilities.RoundedImageView
         android:id="@+id/rv_userImage"
@@ -32,14 +32,15 @@
         android:layout_toRightOf="@+id/rv_userImage"
         android:text="jahsjahsjas"
         android:textColor="@android:color/black" />
+
     <ImageButton
         android:id="@+id/ib_jobSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:background="@android:color/transparent"
-        android:src="@drawable/ic_menu_manage" />
+        android:src="@drawable/settings" />
 
     <TextView
         android:id="@+id/tv_jobLocation"
