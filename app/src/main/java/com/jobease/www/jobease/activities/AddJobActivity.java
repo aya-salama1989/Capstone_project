@@ -12,13 +12,9 @@ import com.jobease.www.jobease.R;
 import com.jobease.www.jobease.Utilities.Logging;
 import com.jobease.www.jobease.Utilities.UserSettings;
 import com.jobease.www.jobease.models.Job;
-import com.jobease.www.jobease.models.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -156,14 +152,9 @@ public class AddJobActivity extends AppCompatActivity {
 //                job.setAppliedUsers(map);
                 //TODO: populate extra data
 //                1- get current long and lat if user agreed or already saved before
-                if (createJob(job)) {
-                    emptyViews();
-                    super.onBackPressed();
-
-                } else {
-                    Logging.longToast(AddJobActivity.this, getString(R.string.something_went_wrong));
-                }
-
+                createJob(job);
+                emptyViews();
+                super.onBackPressed();
             }
         });
     }

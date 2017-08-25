@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.jobease.www.jobease.activities.JobAppliersActivity">
+
+    <include layout="@layout/main_tool_bar" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/empty_placeHolder"
+            android:visibility="gone"
+            android:textColor="@android:color/holo_blue_dark"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/no_one"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:visibility="gone"
+
+        android:id="@+id/rv_appliers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    </FrameLayout>
+</LinearLayout>

@@ -58,4 +58,8 @@
     <string name="rate">Rate</string>
     <string name="apply">Apply</string>
     <string name="edit_job">Edit Job</string>
+    <string name="no_one">No One Applied yet :(</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="empty_view_text">There are no jobs to view :(</string>
 </resources>

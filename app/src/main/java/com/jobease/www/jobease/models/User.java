@@ -1,6 +1,9 @@
 package com.jobease.www.jobease.models;
 
 
+import com.jobease.www.jobease.Utilities.Logging;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -18,6 +21,7 @@ public class User {
     private long rating;
     private int noPosts;
     private int noFlags;
+    private int noApplies;
     private String address;
     private double longitude;
     private double latitude;
@@ -27,9 +31,58 @@ public class User {
     }
 
     public User(JSONObject jsonObject) {
-
+        try {
+            if (jsonObject.has("uid")) {
+                uid = jsonObject.getString("uid");
+            }
+            if (jsonObject.has("address")) {
+                address = jsonObject.getString("address");
+            }
+            if (jsonObject.has("image")) {
+                image = jsonObject.getString("image");
+            }
+            if (jsonObject.has("name")) {
+                name = jsonObject.getString("name");
+            }
+            if (jsonObject.has("birthDate")) {
+                birthDate = jsonObject.getString("birthDate");
+            }
+            if (jsonObject.has("userPhone")) {
+                userPhone = jsonObject.getString("userPhone");
+            }
+            if (jsonObject.has("rating")) {
+                rating = jsonObject.getLong("rating");
+            }
+            if (jsonObject.has("longitude")) {
+                longitude = jsonObject.getDouble("longitude");
+            }
+            if (jsonObject.has("latitude")) {
+                latitude = jsonObject.getDouble("latitude");
+            }
+            if (jsonObject.has("noPosts")) {
+                noPosts = jsonObject.getInt("noPosts");
+            }
+            if (jsonObject.has("noFlags")) {
+                noFlags = jsonObject.getInt("noFlags");
+            }
+            if (jsonObject.has("noApplies")) {
+                noApplies = jsonObject.getInt("noApplies");
+            }
+            if (jsonObject.has("isFlaged")) {
+                isFlaged = jsonObject.getBoolean("isFlaged");
+            }
+        } catch (JSONException e) {
+            Logging.log(e.getMessage());
+        }
     }
 
+    public int getNoApplies() {
+        return noApplies;
+    }
+
+    public void setNoApplies(int noApplies) {
+        this.noApplies = noApplies;
+    }
 
     public String getUid() {
         return uid;

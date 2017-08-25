@@ -44,7 +44,7 @@ public class SideMenuRecyclerAdapter extends RecyclerView.Adapter<SideMenuRecycl
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 4;
     }
 
     public interface SideMenuClickListener {

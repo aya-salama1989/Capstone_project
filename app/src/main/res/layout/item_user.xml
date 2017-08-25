@@ -42,15 +42,15 @@
         android:layout_toEndOf="@+id/rv_userImage"
         android:layout_toRightOf="@+id/rv_userImage"
         android:isIndicator="true" />
-
+<!--
     <ImageButton
         android:id="@+id/btn_Settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:background="@android:color/transparent"
-        android:src="@drawable/ic_menu_manage" />
+        android:src="@drawable/settings" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,21 +59,23 @@
         android:layout_marginTop="@dimen/small"
         android:orientation="horizontal">
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_call"
             android:layout_width="0dp"
             android:layout_height="@dimen/button_height"
             android:layout_weight="1"
             android:background="@android:color/transparent"
+            android:src="@drawable/ic_call"
             android:text="@string/call" />
 
-        <Button
-            android:id="@+id/btn_hire"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/button_height"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:text="@string/hire" />
+        <!--<ImageButton-->
+            <!--android:id="@+id/btn_hire"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="@dimen/button_height"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@android:color/transparent"-->
+            <!--android:src="@drawable/ic_check"-->
+            <!--android:text="@string/hire" />-->
     </LinearLayout>
 
 

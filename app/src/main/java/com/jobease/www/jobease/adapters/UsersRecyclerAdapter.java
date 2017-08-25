@@ -63,8 +63,8 @@ public class UsersRecyclerAdapter extends RecyclerView.Adapter<UsersRecyclerAdap
 
     class UserItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private RoundedImageView roundedImageView;
-        private ImageButton settingsImgBtn;
-        private Button btnCallUser, btnHireUser;
+//        private ImageButton settingsImgBtn;
+        private ImageButton btnCallUser, btnHireUser;
         private RatingBar ratingBar;
         private TextView userNameTextView, userLocationTxtVue;
 
@@ -74,14 +74,14 @@ public class UsersRecyclerAdapter extends RecyclerView.Adapter<UsersRecyclerAdap
             itemView.setOnClickListener(this);
             roundedImageView = ButterKnife.findById(itemView, R.id.rv_userImage);
 
-            settingsImgBtn = ButterKnife.findById(itemView, R.id.btn_Settings);
-            settingsImgBtn.setOnClickListener(this);
+//            settingsImgBtn = ButterKnife.findById(itemView, R.id.btn_Settings);
+//            settingsImgBtn.setOnClickListener(this);
 
             btnCallUser = ButterKnife.findById(itemView, R.id.btn_call);
             btnCallUser.setOnClickListener(this);
 
-            btnHireUser = ButterKnife.findById(itemView, R.id.btn_hire);
-            btnHireUser.setOnClickListener(this);
+//            btnHireUser = ButterKnife.findById(itemView, R.id.btn_hire);
+//            btnHireUser.setOnClickListener(this);
 
             userNameTextView = ButterKnife.findById(itemView, R.id.tv_userName);
             userLocationTxtVue = ButterKnife.findById(itemView, R.id.tv_user_location);
@@ -101,14 +101,14 @@ public class UsersRecyclerAdapter extends RecyclerView.Adapter<UsersRecyclerAdap
                 case R.id.btn_call:
                     userClickListener.onUserClickListener(BUTTON_CALL, getAdapterPosition());
                     break;
-                case R.id.btn_hire:
-                    userClickListener.onUserClickListener(BUTTON_HIRE, getAdapterPosition());
+//                case R.id.btn_hire:
+//                    userClickListener.onUserClickListener(BUTTON_HIRE, getAdapterPosition());
 
-                    break;
+               /*     break;
                 case R.id.btn_Settings:
-                    userClickListener.onUserClickListener(BUTTON_SETTINGS, getAdapterPosition());
+                    userClickListener.onUserClickListener(BUTTON_SETTINGS, getAdapterPosition());*/
 
-                    break;
+//                    break;
                 default:
                     userClickListener.onUserClickListener(ITEM_CLICK, getAdapterPosition());
             }

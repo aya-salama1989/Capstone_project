@@ -13,18 +13,19 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.jobease.www.jobease.R;
+import com.jobease.www.jobease.Utilities.AppSettings;
 import com.jobease.www.jobease.adapters.SideMenuRecyclerAdapter;
-import com.jobease.www.jobease.fragments.AppliersFragment;
 import com.jobease.www.jobease.fragments.HomeFragment;
 import com.jobease.www.jobease.fragments.JobsFragment;
+import com.jobease.www.jobease.fragments.MyJobsFragment;
 import com.jobease.www.jobease.fragments.ProfileFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.jobease.www.jobease.fragments.AppliersFragment.FRAGMENT_APPLIERS;
 import static com.jobease.www.jobease.fragments.HomeFragment.FRAGMENT_HOME;
 import static com.jobease.www.jobease.fragments.JobsFragment.FRAGMENT_JOBS;
+import static com.jobease.www.jobease.fragments.MyJobsFragment.FRAGMENT_APPLIERS;
 import static com.jobease.www.jobease.fragments.ProfileFragment.FRAGMENT_PROFILE;
 
 public class HomeActivity extends AppCompatActivity
@@ -59,23 +60,22 @@ public class HomeActivity extends AppCompatActivity
         recyclerView.setAdapter(sideMenuRecyclerAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+        if (new AppSettings().getIsFirstLogin(this)) {
+            new Handler().postDelayed(() -> {
                 drawer.openDrawer(GravityCompat.START);
-            }
-        }, 800);
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+            }, 800);
         }
     }
+
+
+//    @Override
+//    public void onBackPressed() {
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
+//    }
 
 //    @Override
 //    public boolean onSupportNavigateUp() {
@@ -115,13 +115,13 @@ public class HomeActivity extends AppCompatActivity
                 fragment = HomeFragment.newInstance("", "");
                 break;
             case FRAGMENT_APPLIERS:
-                fragment = AppliersFragment.newInstance("", "");
+                fragment = MyJobsFragment.newInstance("", "");
                 break;
             case FRAGMENT_JOBS:
                 fragment = JobsFragment.newInstance("", "");
                 break;
             case FRAGMENT_PROFILE:
-                fragment = ProfileFragment.newInstance("", "");
+                fragment = ProfileFragment.newInstance("home", "");
                 break;
             default:
                 throw new UnsupportedOperationException("UnSupportedFragmentId: " + fragmentId);
