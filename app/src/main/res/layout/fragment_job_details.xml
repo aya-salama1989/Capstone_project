@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--<include-->
+        <!--android:id="@+id/tbar"-->
+        <!--layout="@layout/main_tool_bar" />-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_apply"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:id="@+id/job_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/xx_small"
+            android:textAppearance="?android:textAppearanceLarge"
+            tools:text="I am job title" />
+
+        <TextView
+            android:id="@+id/job_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/xx_small"
+            android:textAppearance="?android:textAppearanceMedium"
+            tools:text="I am job job_location" />
+
+        <TextView
+            android:id="@+id/job_salary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/xx_small"
+            android:textAppearance="?android:textAppearanceMedium"
+            tools:text="I am job salary" />
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/s_300">
+
+            <TextView
+                android:id="@+id/job_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/xx_small"
+                android:textAppearance="?android:textAppearanceSmall"
+                tools:text="I am job description" />
+        </ScrollView>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_apply"
+        style="@style/dark_lightText_button_large"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:text="@string/apply" />
+
+    <!--<LinearLayout-->
+    <!--android:id="@+id/user_layout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<com.jobease.www.jobease.Utilities.RoundedImageView-->
+    <!--android:layout_width="@dimen/avatar_dimensions"-->
+    <!--android:layout_height="@dimen/avatar_dimensions"-->
+    <!--android:layout_marginRight="@dimen/activity_horizontal_margin" />-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:orientation="vertical">-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/user_name"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginBottom="@dimen/xx_small"-->
+    <!--android:textAppearance="?android:textAppearanceSmall"-->
+    <!--tools:text="I am job description" />-->
+
+    <!--<RatingBar-->
+    <!--android:id="@+id/rating_bar"-->
+    <!--style="?android:attr/ratingBarStyleIndicator"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:isIndicator="true" />-->
+    <!--</LinearLayout>-->
+    <!--</LinearLayout>-->
+
+</RelativeLayout>

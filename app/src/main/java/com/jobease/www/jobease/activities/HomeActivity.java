@@ -15,7 +15,10 @@ import android.support.v7.widget.Toolbar;
 import com.jobease.www.jobease.R;
 import com.jobease.www.jobease.Utilities.AppSettings;
 import com.jobease.www.jobease.adapters.SideMenuRecyclerAdapter;
+import com.jobease.www.jobease.fragments.AddJobFragment;
+import com.jobease.www.jobease.fragments.FragmentInteractionListener;
 import com.jobease.www.jobease.fragments.HomeFragment;
+import com.jobease.www.jobease.fragments.JobDetailsFragment;
 import com.jobease.www.jobease.fragments.JobsFragment;
 import com.jobease.www.jobease.fragments.MyJobsFragment;
 import com.jobease.www.jobease.fragments.ProfileFragment;
@@ -29,7 +32,7 @@ import static com.jobease.www.jobease.fragments.MyJobsFragment.FRAGMENT_APPLIERS
 import static com.jobease.www.jobease.fragments.ProfileFragment.FRAGMENT_PROFILE;
 
 public class HomeActivity extends AppCompatActivity
-        implements SideMenuRecyclerAdapter.SideMenuClickListener {
+        implements SideMenuRecyclerAdapter.SideMenuClickListener, FragmentInteractionListener {
 
     @BindView(R.id.rv_side_menu)
     RecyclerView recyclerView;
@@ -45,9 +48,22 @@ public class HomeActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         ButterKnife.bind(this);
 
+        initMobileViews();
+//        if (getResources().getBoolean(R.bool.twoPaneMode)) {
+//            initTabletViews();
+//        }
+
+    }
+
+    private void initTabletViews() {
+        JobDetailsFragment jobDetailsFragment = JobDetailsFragment.newInstance("");
+        getSupportFragmentManager().beginTransaction().replace(R.id.details_frag, jobDetailsFragment).commit();
+    }
+
+
+    private void initMobileViews() {
         getFragment(FRAGMENT_HOME);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -112,7 +128,7 @@ public class HomeActivity extends AppCompatActivity
         Fragment fragment = null;
         switch (fragmentId) {
             case FRAGMENT_HOME:
-                fragment = HomeFragment.newInstance("", "");
+                fragment = HomeFragment.newInstance(getResources().getBoolean(R.bool.twoPaneMode), this);
                 break;
             case FRAGMENT_APPLIERS:
                 fragment = MyJobsFragment.newInstance("", "");
@@ -131,5 +147,21 @@ public class HomeActivity extends AppCompatActivity
                 .replace(R.id.fragments_holder, fragment)
                 .setTransition(android.R.anim.bounce_interpolator).commit();
         return fragment;
+    }
+
+    @Override
+    public void onInteraction(Object... data) {
+        if (data != null) {
+            if (getResources().getBoolean(R.bool.twoPaneMode)) {
+                String jobData = (String) data[0];
+                if (jobData.equalsIgnoreCase("1")) {
+                    AddJobFragment addJobFragment = AddJobFragment.newInstance("");
+                    getSupportFragmentManager().beginTransaction().replace(R.id.details_frag, addJobFragment).commit();
+                } else {
+                    JobDetailsFragment jobDetailsFragment = JobDetailsFragment.newInstance(jobData);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.details_frag, jobDetailsFragment).commit();
+                }
+            }
+        }
     }
 }

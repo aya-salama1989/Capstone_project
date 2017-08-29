@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_widget_job"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/colorPrimary"
     android:gravity="center_vertical"
-    android:orientation="vertical"
-    android:padding="@dimen/activity_horizontal_margin">
+    android:paddingBottom="@dimen/x_small"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/x_small">
 
     <TextView
         android:id="@+id/job_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/small"
+        android:textSize="@dimen/font_x_large"
         tools:text="@string/add_job" />
 
     <TextView
@@ -19,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/job_title"
+        android:textSize="@dimen/font_large"
         tools:text="@string/add_job" />
 
     <Button
@@ -26,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="@string/apply" />
+        android:text="@string/check_out" />
 
 
 </RelativeLayout>

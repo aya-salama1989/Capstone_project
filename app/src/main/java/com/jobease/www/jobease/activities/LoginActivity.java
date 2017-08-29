@@ -125,10 +125,8 @@ public class LoginActivity extends AppCompatActivity {
             mainUser.setUid(user.getUid());
             Intent intent = new Intent(this, UserDataActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
             intent.putExtra("userData", new Gson().toJson(mainUser).toString());
             startActivity(intent);
         }
-
     }
 }

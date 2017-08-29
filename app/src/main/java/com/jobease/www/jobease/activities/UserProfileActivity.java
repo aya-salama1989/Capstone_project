@@ -22,15 +22,5 @@ public class UserProfileActivity extends AppCompatActivity {
 
         ProfileFragment profileFragment = ProfileFragment.newInstance("other", userData);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_placeHolder, profileFragment).commit();
-//        initViews();
-    }
-
-
-    private void initViews() {
-        try {
-            JSONObject jsonObject = new JSONObject(userData);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 }

@@ -62,4 +62,6 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="empty_view_text">There are no jobs to view :(</string>
+    <string name="check_out">Check Out</string>
+    <string name="job_details">Job Details</string>
 </resources>

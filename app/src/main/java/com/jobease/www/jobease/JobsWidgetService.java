@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.google.gson.Gson;
 import com.jobease.www.jobease.database.FireBaseDataBaseHelper;
 import com.jobease.www.jobease.models.Job;
 
@@ -26,7 +27,8 @@ public class JobsWidgetService extends RemoteViewsService {
     }
 }
 
-class JobsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory, FireBaseDataBaseHelper.JobsDataChangeListener {
+class JobsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory,
+        FireBaseDataBaseHelper.JobsDataChangeListener {
 
     private Context mContext;
     private int mAppWidgetId;
@@ -65,16 +67,15 @@ class JobsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory, F
         rv.setTextViewText(R.id.job_title, mJobs.get(position).getTitle());
         rv.setTextViewText(R.id.job_address, mJobs.get(position).getAddress());
 
-        // Next, set a fill-intent, which will be used to fill in the pending intent template
-        // that is set on the collection view in StackWidgetProvider.
+
         Bundle extras = new Bundle();
-        extras.putInt(JobsWidgetProvider.OPEN_JOB_ACTION, position);
+        Gson gson = new Gson();
+        extras.putString("jobObject", gson.toJson(mJobs.get(position)).toString());
         Intent fillInIntent = new Intent();
         fillInIntent.putExtras(extras);
-        // Make it possible to distinguish the individual on-click
-        // action of a given item
+
+//        rv.setOnClickFillInIntent(R.id.item_widget_job, fillInIntent);
         rv.setOnClickFillInIntent(R.id.btn_apply, fillInIntent);
-//        rv.setOnClickPendingIntent(R.id.btn_apply, );
         return rv;
     }
 
@@ -85,12 +86,12 @@ class JobsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory, F
 
     @Override
     public int getViewTypeCount() {
-        return 0;
+        return 1;
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return mJobs.get(position).hashCode();
     }
 
     @Override

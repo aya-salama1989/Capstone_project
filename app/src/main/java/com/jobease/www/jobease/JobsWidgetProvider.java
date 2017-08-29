@@ -8,12 +8,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.widget.RemoteViews;
 
+import com.jobease.www.jobease.activities.HomeActivity;
+import com.jobease.www.jobease.activities.JobDetailsActivity;
+
 /**
  * Implementation of App Widget functionality.
  */
 public class JobsWidgetProvider extends AppWidgetProvider {
 
-    public static final String OPEN_JOB_ACTION = "com.example.android.stackwidget.OPEN_JOB_ACTION";
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int[] appWidgetIds) {
@@ -26,18 +28,12 @@ public class JobsWidgetProvider extends AppWidgetProvider {
             rv.setRemoteAdapter(R.id.widget_list, intent);
             rv.setEmptyView(R.id.widget_list, R.id.empty_view);
 
-            Intent toastIntent = new Intent(context, JobsWidgetProvider.class);
-            // Set the action for the intent.
-            // When the user touches a particular view, it will have the effect of
-            // broadcasting TOAST_ACTION.
-            toastIntent.setAction(JobsWidgetProvider.OPEN_JOB_ACTION);
-            toastIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
+            Intent openActivity = new Intent(context, JobDetailsActivity.class);
+            openActivity.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetIds[i]);
             intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
-            PendingIntent toastPendingIntent = PendingIntent.getBroadcast(context, 0, toastIntent,
+            PendingIntent toastPendingIntent = PendingIntent.getActivity(context, 0, openActivity,
                     PendingIntent.FLAG_UPDATE_CURRENT);
             rv.setPendingIntentTemplate(R.id.widget_list, toastPendingIntent);
-
-
             appWidgetManager.updateAppWidget(appWidgetIds[i], rv);
         }
     }

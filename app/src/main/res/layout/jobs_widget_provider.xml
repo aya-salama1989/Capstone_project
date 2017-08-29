@@ -1,7 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#09C"
     android:padding="@dimen/widget_margin">
 
     <ListView
@@ -10,20 +9,20 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_margin="8dp"
-        android:background="#09C"
-        android:textColor="#ffffff"
-        android:textSize="24sp"
+        android:layout_margin="@dimen/small"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="@dimen/xx_small"
+        android:textSize="@dimen/font_xx_large"
         android:textStyle="bold|italic" />
 
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    <TextView
         android:id="@+id/empty_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
+        android:background="@color/colorPrimary"
         android:text="@string/empty_view_text"
-        android:textColor="#ffffff"
-        android:textSize="20sp"
+        android:textSize="@dimen/font_x_large"
         android:textStyle="bold" />
 
     <!--  android:contentDescription="@string/appwidget_text"
