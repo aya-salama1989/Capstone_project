@@ -47,8 +47,6 @@ public class JobDetailsFragment extends Fragment implements FireBaseDataBaseHelp
     Button btnApply;
 
 
-
-
     private View v;
     private JSONObject jsonObject;
     private Job job;
@@ -64,6 +62,15 @@ public class JobDetailsFragment extends Fragment implements FireBaseDataBaseHelp
         args.putString(JOB_DATA, jobData);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
     }
 
 
@@ -85,9 +92,6 @@ public class JobDetailsFragment extends Fragment implements FireBaseDataBaseHelp
     }
 
 
-
-
-
     private void initViews() {
         jobTitleTxtVue.setText(job.getTitle());
         jobLocationTxtVue.setText(job.getAddress());
@@ -100,6 +104,7 @@ public class JobDetailsFragment extends Fragment implements FireBaseDataBaseHelp
 
     @Override
     public void onUserGot(User user) {
-        applyToAJob(job, user);
+        applyToAJob(job, user, getActivity());
+        getActivity().onBackPressed();
     }
 }

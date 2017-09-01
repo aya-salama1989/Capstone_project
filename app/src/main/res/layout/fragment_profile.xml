@@ -18,6 +18,7 @@
             android:layout_alignParentStart="true"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_flag"
+            android:contentDescription="@string/flag_user"
             android:visibility="invisible" />
 
         <ImageButton
@@ -28,6 +29,7 @@
             android:layout_alignParentRight="true"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_edit"
+            android:contentDescription="@string/edit_user"
             android:visibility="invisible" />
     </RelativeLayout>
 
@@ -63,6 +65,7 @@
             android:drawableLeft="@drawable/ic_call"
             android:drawableStart="@drawable/ic_call"
             android:gravity="center"
+            android:contentDescription="@string/user_phone"
             tools:text="USer Phone here" />
 
         <RatingBar
@@ -70,6 +73,7 @@
             style="?android:attr/ratingBarStyleIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/user_rating"
             android:numStars="5" />
 
     </LinearLayout>

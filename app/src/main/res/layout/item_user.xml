@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
+    android:background="@drawable/item_selector"
     android:padding="@dimen/activity_horizontal_margin">
 
     <com.jobease.www.jobease.Utilities.RoundedImageView
@@ -11,7 +12,8 @@
         android:layout_height="@dimen/avatar_dimensions"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:src="@drawable/ic_menu_camera" />
+        android:contentDescription="@string/user_image"
+       />
 
     <TextView
         android:id="@+id/tv_userName"
@@ -41,6 +43,7 @@
         android:layout_below="@+id/tv_user_location"
         android:layout_toEndOf="@+id/rv_userImage"
         android:layout_toRightOf="@+id/rv_userImage"
+        android:contentDescription="@string/user_rating"
         android:isIndicator="true" />
 <!--
     <ImageButton
@@ -66,6 +69,7 @@
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_call"
+            android:contentDescription="@string/call_candidate"
             android:text="@string/call" />
 
         <!--<ImageButton-->

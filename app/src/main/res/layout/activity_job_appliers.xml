@@ -18,11 +18,11 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:contentDescription="@string/no_one"
             android:text="@string/no_one"/>
 
     <android.support.v7.widget.RecyclerView
         android:visibility="gone"
-
         android:id="@+id/rv_appliers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

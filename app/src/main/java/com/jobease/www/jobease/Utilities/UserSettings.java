@@ -16,74 +16,86 @@ public class UserSettings {
 
 
     public void setUserID(Context context, String userToken) {
-        sharedPreferences = context.getSharedPreferences("userToken", MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         editor.putString("userToken", userToken);
         editor.commit();
     }
 
     public String getUserID(Context context) {
-        sharedPreferences = context.getSharedPreferences("userToken", MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE);
         return sharedPreferences.getString("userToken", "");
     }
 
     public void setUserFullName(Context context, String userToken) {
-        sharedPreferences = context.getSharedPreferences("userFullName", MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         editor.putString("userFullName", userToken);
         editor.commit();
     }
 
     public String getUserFullName(Context context) {
-        sharedPreferences = context.getSharedPreferences("userFullName", MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE);
         return sharedPreferences.getString("userFullName", "");
     }
 
     public void setUserBirthDate(Context context, String userToken) {
-        sharedPreferences = context.getSharedPreferences("userBirthDate", MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         editor.putString("userBirthDate", userToken);
         editor.commit();
     }
 
     public String getUserBirthDate(Context context) {
-        sharedPreferences = context.getSharedPreferences("userBirthDate", MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE);
         return sharedPreferences.getString("userBirthDate", "");
     }
 
     public void setCurrency(Context context, String userToken) {
-        sharedPreferences = context.getSharedPreferences("currency", MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         editor.putString("currency", userToken);
         editor.commit();
     }
 
     public String getCurrency(Context context) {
-        sharedPreferences = context.getSharedPreferences("currency", MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE);
         return sharedPreferences.getString("currency", "");
     }
 
     public void setAddress(Context context, String userToken) {
-        sharedPreferences = context.getSharedPreferences("address", MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         editor.putString("address", userToken);
         editor.commit();
     }
 
     public String getAddress(Context context) {
-        sharedPreferences = context.getSharedPreferences("address", MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE);
         return sharedPreferences.getString("address", "");
     }
 
     public void setPhone(Context context, String userToken) {
-        sharedPreferences = context.getSharedPreferences("phone", MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         editor.putString("phone", userToken);
         editor.commit();
     }
 
     public String getPhone(Context context) {
-        sharedPreferences = context.getSharedPreferences("phone", MODE_PRIVATE);
+        sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE);
         return sharedPreferences.getString("phone", "");
+    }
+
+    public void setUserImamge(Context context, String userToken) {
+        sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+        editor.putString("user_img", userToken);
+        editor.commit();
+    }
+
+    public String getUserImamge(Context context) {
+        sharedPreferences = context.getSharedPreferences("user_data", MODE_PRIVATE);
+        return sharedPreferences.getString("user_img", "");
     }
 }

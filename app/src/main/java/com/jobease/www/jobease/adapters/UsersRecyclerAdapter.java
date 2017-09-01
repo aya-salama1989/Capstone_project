@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -32,6 +31,7 @@ public class UsersRecyclerAdapter extends RecyclerView.Adapter<UsersRecyclerAdap
     private Context context;
     private ArrayList<User> users;
     private UserClickListener userClickListener;
+    private int selectedItem;
 
     public UsersRecyclerAdapter(ArrayList<User> users, UserClickListener userClickListener) {
         this.users = users;
@@ -50,6 +50,11 @@ public class UsersRecyclerAdapter extends RecyclerView.Adapter<UsersRecyclerAdap
     @Override
     public void onBindViewHolder(UserItemViewHolder holder, int position) {
         holder.setData(users.get(position));
+        if (position == selectedItem) {
+            holder.itemView.setSelected(true);
+        } else {
+            holder.itemView.setSelected(false);
+        }
     }
 
     @Override
@@ -63,7 +68,7 @@ public class UsersRecyclerAdapter extends RecyclerView.Adapter<UsersRecyclerAdap
 
     class UserItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private RoundedImageView roundedImageView;
-//        private ImageButton settingsImgBtn;
+        //        private ImageButton settingsImgBtn;
         private ImageButton btnCallUser, btnHireUser;
         private RatingBar ratingBar;
         private TextView userNameTextView, userLocationTxtVue;
@@ -97,6 +102,7 @@ public class UsersRecyclerAdapter extends RecyclerView.Adapter<UsersRecyclerAdap
 
         @Override
         public void onClick(View v) {
+            selectedItem = getAdapterPosition();
             switch (v.getId()) {
                 case R.id.btn_call:
                     userClickListener.onUserClickListener(BUTTON_CALL, getAdapterPosition());

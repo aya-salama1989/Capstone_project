@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -45,7 +46,6 @@ import static com.jobease.www.jobease.Utilities.DateUtils.getCurrentDeviceDate;
 import static com.jobease.www.jobease.Utilities.DateUtils.getDiffYears;
 import static com.jobease.www.jobease.Utilities.Utilities.createAlertDialogue;
 import static com.jobease.www.jobease.database.FireBaseDataBaseHelper.createUser;
-import static com.jobease.www.jobease.database.FireBaseDataBaseHelper.getUser;
 
 public class UserDataActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener, ActivityCompat.OnRequestPermissionsResultCallback {
@@ -63,10 +63,10 @@ public class UserDataActivity extends AppCompatActivity
     Button btnDone;
     @BindView(R.id.btn_detect_location)
     ImageButton imgBtn;
-    private User user;
+    private User user = new User();
     private int _birthYear, _month, _day;
     private UserSettings userSettings = new UserSettings();
-    private AppSettings appSettings = new AppSettings();
+    //    private AppSettings appSettings = new AppSettings();
     private double longitude, latitude;
 
     private FusedLocationProviderClient mFusedLocationClient;
@@ -76,16 +76,31 @@ public class UserDataActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_data);
         ButterKnife.bind(this);
-        if (!appSettings.getIsFirstLogin(this)) {
-            Intent intent = new Intent(this, HomeActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
+
+
+        if (savedInstanceState != null) {
+            etPhoneNumber.setText(savedInstanceState.getString("phone"));
+            etBirthDate.setText(savedInstanceState.getString("birth_date"));
         }
         getData();
         bindViews();
-
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putString("phone", etPhoneNumber.getText().toString().trim());
+        outState.putString("birth_date", etBirthDate.getText().toString().trim());
 
     }
 
@@ -120,13 +135,16 @@ public class UserDataActivity extends AppCompatActivity
                 new AppSettings().setIsFirstLogin(this, false);
                 userSettings.setPhone(this, etPhoneNumber.getText().toString().trim());
                 userSettings.setUserBirthDate(this, etBirthDate.getText().toString().trim());
+                userSettings.setUserImamge(this, user.getImage());
                 if (user != null) {
                     user.setBirthDate(userSettings.getUserBirthDate(this));
                     user.setUserPhone(userSettings.getPhone(this));
                     user.setLatitude(latitude);
                     user.setLongitude(longitude);
                 }
+
                 createUser(user, this);
+
                 Intent intent = new Intent(UserDataActivity.this, HomeActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
@@ -143,7 +161,6 @@ public class UserDataActivity extends AppCompatActivity
     private void getData() {
         if (getIntent().getExtras() != null) {
             String userString = getIntent().getStringExtra("userData");
-            user = new User();
             try {
                 JSONObject jsonObject = new JSONObject(userString);
                 user.setName(jsonObject.getString("name"));

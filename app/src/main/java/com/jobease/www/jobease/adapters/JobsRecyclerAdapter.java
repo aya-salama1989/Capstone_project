@@ -1,6 +1,7 @@
 package com.jobease.www.jobease.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,10 +29,12 @@ public class JobsRecyclerAdapter extends RecyclerView.Adapter<JobsRecyclerAdapte
     private ArrayList<Job> jobs;
     private Context context;
     private JobClickListener jobClickListener;
+    private int selectedItem = -1;
 
     public JobsRecyclerAdapter(ArrayList<Job> jobs, JobClickListener jobClickListener) {
         this.jobs = jobs;
         this.jobClickListener = jobClickListener;
+        setHasStableIds(true);
     }
 
     @Override
@@ -46,6 +49,11 @@ public class JobsRecyclerAdapter extends RecyclerView.Adapter<JobsRecyclerAdapte
     @Override
     public void onBindViewHolder(JobItemViewHolder holder, int position) {
         holder.setData(jobs.get(position));
+        if (position == selectedItem) {
+            holder.itemView.setBackgroundColor(Color.GRAY);
+        } else {
+            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+        }
     }
 
     @Override
@@ -76,7 +84,11 @@ public class JobsRecyclerAdapter extends RecyclerView.Adapter<JobsRecyclerAdapte
         }
 
         public void setData(Job job) {
-            Picasso.with(context).load(job.getUserImage()).into(userImageView);
+            if (job.getUserImage() != null) {
+                if (!job.getUserImage().isEmpty()) {
+                    Picasso.with(context).load(job.getUserImage()).into(userImageView);
+                }
+            }
             userNameTV.setText(job.getUserName());
             jobTitleTV.setText(job.getTitle());
             jobLocationTV.setText(job.getAddress());
@@ -86,11 +98,13 @@ public class JobsRecyclerAdapter extends RecyclerView.Adapter<JobsRecyclerAdapte
 
         @Override
         public void onClick(View v) {
+            selectedItem = getAdapterPosition();
             if (v.getId() == R.id.ib_jobSettings) {
                 jobClickListener.onJobClick(ITEM_SETTINGS, getAdapterPosition());
             } else {
                 jobClickListener.onJobClick(ITEM_JOB, getAdapterPosition());
             }
+            notifyDataSetChanged();
         }
     }
 }

@@ -63,10 +63,13 @@
 
         <service
             android:name=".LatestJobsIntentService"
-            android:exported="false"/>
+            android:exported="false" />
+        <service
+            android:name=".JobsWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
-        <service android:name="JobsWidgetService"
-        android:permission="android.permission.BIND_REMOTEVIEWS" />
+        <activity android:name=".activities.MyProfileActivity" />
+        <activity android:name=".activities.MyJobsActivity"></activity>
     </application>
 
 </manifest>

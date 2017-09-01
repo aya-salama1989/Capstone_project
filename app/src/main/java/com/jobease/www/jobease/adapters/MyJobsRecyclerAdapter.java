@@ -22,17 +22,19 @@ import butterknife.ButterKnife;
 public class MyJobsRecyclerAdapter extends RecyclerView.Adapter<MyJobsRecyclerAdapter.MyJobViewHoldere> {
     private OnMyJobClickListener onMyJobClickListener;
     private ArrayList<Job> jobs;
+    private int selectedItem;
 
     public MyJobsRecyclerAdapter(OnMyJobClickListener onMyJobClickListener, ArrayList<Job> jobs) {
         this.onMyJobClickListener = onMyJobClickListener;
         this.jobs = jobs;
+        setHasStableIds(true);
     }
 
     @Override
     public MyJobViewHoldere onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(R.layout.iitem_my_job, parent, false);
+        View v = inflater.inflate(R.layout.item_my_job, parent, false);
         MyJobViewHoldere myJobViewHolder = new MyJobViewHoldere(v);
         return myJobViewHolder;
     }
@@ -40,6 +42,11 @@ public class MyJobsRecyclerAdapter extends RecyclerView.Adapter<MyJobsRecyclerAd
     @Override
     public void onBindViewHolder(MyJobViewHoldere holder, int position) {
         holder.setData(jobs.get(position));
+        if (position == selectedItem) {
+            holder.itemView.setSelected(true);
+        } else {
+            holder.itemView.setSelected(false);
+        }
     }
 
     @Override
@@ -69,6 +76,7 @@ public class MyJobsRecyclerAdapter extends RecyclerView.Adapter<MyJobsRecyclerAd
 
         @Override
         public void onClick(View v) {
+            selectedItem = getAdapterPosition();
             switch (v.getId()) {
                 case R.id.btn_settings:
                     onMyJobClickListener.OnMyJobItemClick(0, getAdapterPosition());
@@ -78,6 +86,7 @@ public class MyJobsRecyclerAdapter extends RecyclerView.Adapter<MyJobsRecyclerAd
                     break;
                 default:
             }
+            notifyDataSetChanged();
         }
     }
 

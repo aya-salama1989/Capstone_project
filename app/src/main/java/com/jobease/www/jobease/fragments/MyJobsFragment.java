@@ -23,15 +23,13 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.jobease.www.jobease.database.FireBaseDataBaseHelper.getAllJobs;
 import static com.jobease.www.jobease.database.FireBaseDataBaseHelper.getMyJobs;
 
 
 public class MyJobsFragment extends Fragment implements
-        FireBaseDataBaseHelper.JobsDataChangeListener, MyJobsRecyclerAdapter.OnMyJobClickListener {
+        FireBaseDataBaseHelper.JobsDataChangeListener, MyJobsRecyclerAdapter.OnMyJobClickListener, DialogActionsListener {
     public static final int FRAGMENT_APPLIERS = 2;
-
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
     @BindView(R.id.rv_appliers)
     RecyclerView recyclerView;
@@ -44,12 +42,8 @@ public class MyJobsFragment extends Fragment implements
     }
 
 
-    public static MyJobsFragment newInstance(String param1, String param2) {
+    public static MyJobsFragment newInstance() {
         MyJobsFragment fragment = new MyJobsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -92,15 +86,27 @@ public class MyJobsFragment extends Fragment implements
 
     @Override
     public void OnMyJobItemClick(int type, int position) {
+        Gson gson = new Gson();
+        String jsonObject = gson.toJson(myJobs.get(position));
+
         if (type == 0) {
-//settings
+            PosterJobActions posterJobActions = new PosterJobActions();
+            posterJobActions.newInstance(this, jsonObject).show(getChildFragmentManager(), "Poster_Actions");
         } else {
-            Map<String, User> users = myJobs.get(position).getAppliedUsers();
-            Gson gson = new Gson();
-            String json = gson.toJson(users);
-            Intent intent = new Intent(getActivity(), JobAppliersActivity.class);
-            intent.putExtra("appliersList", json.toString());
-            startActivity(intent);
+
+                Map<String, User> users = myJobs.get(position).getAppliedUsers();
+                String json = gson.toJson(users);
+                Intent intent = new Intent(getActivity(), JobAppliersActivity.class);
+                intent.putExtra("appliersList", json.toString());
+                startActivity(intent);
+
         }
+    }
+
+    @Override
+    public void onActionDone(Object... objects) {
+        myJobs.clear();
+        getAllJobs(this);
+        myJobsRecyclerAdapter.notifyDataSetChanged();
     }
 }

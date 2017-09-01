@@ -11,7 +11,8 @@
         android:layout_height="@dimen/avatar_dimensions"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:src="@drawable/ic_menu_camera" />
+        android:contentDescription="@string/user_image"
+      />
 
     <TextView
         android:id="@+id/tv_userName"
@@ -40,6 +41,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:background="@android:color/transparent"
+        android:contentDescription="@string/job_settings"
         android:src="@drawable/settings" />
 
     <TextView

@@ -1,6 +1,7 @@
 package com.jobease.www.jobease.database;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import com.google.firebase.database.ChildEventListener;
@@ -9,7 +10,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.jobease.www.jobease.R;
 import com.jobease.www.jobease.Utilities.AppSettings;
+import com.jobease.www.jobease.Utilities.Logging;
 import com.jobease.www.jobease.Utilities.UserSettings;
 import com.jobease.www.jobease.models.Job;
 import com.jobease.www.jobease.models.User;
@@ -47,14 +50,27 @@ public class FireBaseDataBaseHelper {
 
     }
 
-    public static void editUser(User user) {
+    public static void editUser(User user, Context context) {
         usersDBRef = getDataBaseReference("users").child(user.getUid());
-        usersDBRef.setValue(user);
+        usersDBRef.setValue(user, (DatabaseError databaseError, DatabaseReference databaseReference)-> {
+            if(databaseError==null){
+                Logging.longToast(context, context.getString(R.string.edit_success));
+            }else {
+                Logging.log(databaseError.getMessage());
+            }
+        });
     }
 
-    public static void flagUser(User user) {
+    public static void flagUser(User user, Context context) {
         usersDBRef = getDataBaseReference("users").child(user.getUid()).child("noFlags");
-        usersDBRef.setValue(user.getNoFlags() + 1);
+        usersDBRef.setValue(user.getNoFlags() + 1,(DatabaseError databaseError, DatabaseReference databaseReference)-> {
+            if(databaseError==null){
+                Logging.longToast(context, context.getString(R.string.flagged_success));
+            }else {
+                Logging.log(databaseError.getMessage());
+            }
+
+        });
     }
 
     public static void getUser(String uid, UserGettingListener userGettingListener) {
@@ -74,17 +90,19 @@ public class FireBaseDataBaseHelper {
         });
     }
 
-    public static void createJob(Job job) {
+    public static void createJob(Job job, Context context) {
         //Job  created and pushed to the DB
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         postsDBRef = firebaseDatabase.getReference("posts").push();
         postsDBRef.setValue(job);
-
         firebaseDatabase.getReference("posts")
                 .child(postsDBRef.getKey()).child("jobId").setValue(postsDBRef.getKey(),
                 (DatabaseError databaseError, DatabaseReference databaseReference) -> {
-//TODO: add a listener for success or error
-
+                    if (databaseError == null) {
+                        Logging.shortToast(context, context.getString(R.string.added_successfully));
+                    } else {
+                        Logging.log(databaseError.getMessage());
+                    }
                 });
     }
 
@@ -173,10 +191,17 @@ public class FireBaseDataBaseHelper {
         getDataBaseReference("posts").child(job.getJobId()).child("noOfRaters").setValue(job.getNoOfRaters() + 1);
     }
 
-    public static void applyToAJob(Job job, User user) {
+    public static void applyToAJob(Job job, User user, Context context) {
         User mUser = user;
         String btngan = user.getUid();
-        getDataBaseReference("posts").child(job.getJobId()).child("appliedUsers").child(btngan).setValue(user);
+        getDataBaseReference("posts").child(job.getJobId()).child("appliedUsers").child(btngan)
+                .setValue(user, (DatabaseError databaseError, DatabaseReference databaseReference)-> {
+                if(databaseError==null){
+                    Logging.longToast(context, context.getString(R.string.applied_successfully));
+                }else {
+                    Logging.log(databaseError.getMessage());
+                }
+        });
     }
 
 

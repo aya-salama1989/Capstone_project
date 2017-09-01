@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.jobease.www.jobease.Utilities.Utilities.dialNumber;
 import static com.jobease.www.jobease.database.FireBaseDataBaseHelper.editUser;
 import static com.jobease.www.jobease.database.FireBaseDataBaseHelper.flagUser;
 import static com.jobease.www.jobease.database.FireBaseDataBaseHelper.getUser;
@@ -70,7 +71,6 @@ public class ProfileFragment extends Fragment implements FireBaseDataBaseHelper.
         Bundle args = new Bundle();
         args.putString(ARG_FROM, from);
         args.putString(USER_DATA, userData);
-
         fragment.setArguments(args);
         return fragment;
     }
@@ -98,11 +98,11 @@ public class ProfileFragment extends Fragment implements FireBaseDataBaseHelper.
         }
 
         btnFlagUser.setOnClickListener((View v) -> {
-            flagUser(mUser);
+            flagUser(mUser, getActivity());
         });
 
         btnEditUser.setOnClickListener((View v) -> {
-            editUser(mUser);
+            editUser(mUser, getActivity());
         });
     }
 
@@ -116,12 +116,9 @@ public class ProfileFragment extends Fragment implements FireBaseDataBaseHelper.
                     JSONObject jsonObject = new JSONObject(user);
                     mUser = new User(jsonObject);
                     setData(mUser);
-
                 } catch (JSONException e) {
                     Logging.log(e.getMessage());
                 }
-
-
             }
         }
     }
@@ -130,13 +127,20 @@ public class ProfileFragment extends Fragment implements FireBaseDataBaseHelper.
     @Override
     public void onUserGot(User user) {
         mUser = user;
-        setData(mUser);
+
+        if (ProfileFragment.this.isAdded()) {
+            setData(mUser);
+        }
+
     }
 
     private void setData(User user) {
         Picasso.with(getActivity()).load(user.getImage()).into(roundedImageView);
         userNameTxtView.setText(user.getName());
         userPhoneTxtView.setText(user.getUserPhone());
+        userPhoneTxtView.setOnClickListener((View v) -> {
+            dialNumber(getActivity(), user.getUserPhone());
+        });
         ratingBar.setRating(user.getRating());
         appliedTxtView.setText(getString(R.string.appliers_placeHolder, "" + user.getNoApplies()));
         reportsTextView.setText(getString(R.string.flags_placeHolder, "" + user.getNoFlags()));

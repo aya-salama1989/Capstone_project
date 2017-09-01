@@ -30,7 +30,7 @@
     <string name="profile">Profile</string>
     <string name="appliers">Appliers</string>
     <string name="posted_jobs">Posted Jobs</string>
-    <string name="sign_out"></string>
+    <string name="sign_out">Sign Out</string>
     <string name="set_location">Click button to support you with the nearest available tasks to your fine location</string>
     <string name="appliers_placeHolder">%1$s\nApplied</string>
     <string name="flags_placeHolder">%1$s\nReport</string>
@@ -64,4 +64,31 @@
     <string name="empty_view_text">There are no jobs to view :(</string>
     <string name="check_out">Check Out</string>
     <string name="job_details">Job Details</string>
+    <string name="added_successfully">Added Successfully</string>
+
+    <string name="user_image">Job Poster</string>
+    <string name="job_settings">Job Settings</string>
+    <string name="check_out_button">Check Out Job</string>
+    <string name="call_candidate">Call Candidate</string>
+    <string name="login_fb_button">Log in JobEase using Facebook</string>
+    <string name="detect_my_location">Detect my fine location</string>
+    <string name="edit_my_data">Add to your personal data</string>
+    <string name="add_new_job">Add New job</string>
+    <string name="add_new_job_screen">Go to add new job Screen</string>
+    <string name="apply_to_job">Apply to the job</string>
+    <string name="applied_successfully">Applied Successfully</string>
+    <string name="user_phone">User Phone, CLick to call</string>
+    <string name="user_rating">User Rating</string>
+    <string name="flag_user">Flag user</string>
+    <string name="edit_user">Edit User</string>
+
+    <string name="Add_mob_id">ca-app-pub-1068490261766852~2141257191</string>
+    <string name="banner_add_mob_id">ca-app-pub-1068490261766852/2548451302</string>
+    <string name="testing_add_mob_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="flagged_success">User Flagged Successfully</string>
+    <string name="edit_success">User Editted Successfully</string>
+    <string name="log_out">Log out</string>
+    <string name="my_jobs">My Jobs</string>
+
+
 </resources>

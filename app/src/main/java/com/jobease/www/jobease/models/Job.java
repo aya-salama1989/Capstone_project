@@ -1,5 +1,8 @@
 package com.jobease.www.jobease.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.jobease.www.jobease.Utilities.Logging;
 
@@ -17,7 +20,7 @@ import java.util.Map;
 */
 
 @IgnoreExtraProperties
-public class Job {
+public class Job implements Parcelable {
 
     public Map<String, User> appliedUsers = new HashMap<>();
     private String title;
@@ -38,6 +41,38 @@ public class Job {
     private String userImage;
     private String userName;
 
+
+    protected Job(Parcel in) {
+        title = in.readString();
+        salary = in.readString();
+        currency = in.readString();
+        description = in.readString();
+        address = in.readString();
+        longitude = in.readLong();
+        latitude = in.readLong();
+        rating = in.readLong();
+        userId = in.readString();
+        jobId = in.readString();
+        noOfWorkers = in.readInt();
+        isApplied = in.readByte() != 0;
+        isReported = in.readByte() != 0;
+        noOfRaters = in.readInt();
+        noOfReports = in.readInt();
+        userImage = in.readString();
+        userName = in.readString();
+    }
+
+    public static final Creator<Job> CREATOR = new Creator<Job>() {
+        @Override
+        public Job createFromParcel(Parcel in) {
+            return new Job(in);
+        }
+
+        @Override
+        public Job[] newArray(int size) {
+            return new Job[size];
+        }
+    };
 
     public Map<String, User> getAppliedUsers() {
         return appliedUsers;
@@ -249,5 +284,31 @@ public class Job {
 
     public void setReported(boolean reported) {
         isReported = reported;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(salary);
+        dest.writeString(currency);
+        dest.writeString(description);
+        dest.writeString(address);
+        dest.writeLong(longitude);
+        dest.writeLong(latitude);
+        dest.writeLong(rating);
+        dest.writeString(userId);
+        dest.writeString(jobId);
+        dest.writeInt(noOfWorkers);
+        dest.writeByte((byte) (isApplied ? 1 : 0));
+        dest.writeByte((byte) (isReported ? 1 : 0));
+        dest.writeInt(noOfRaters);
+        dest.writeInt(noOfReports);
+        dest.writeString(userImage);
+        dest.writeString(userName);
     }
 }

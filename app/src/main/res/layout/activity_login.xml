@@ -15,6 +15,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="30dp"
         android:layout_marginTop="30dp"
+        android:contentDescription="@string/login_fb_button"
         app:layout_constraintBottom_toBottomOf="@+id/parent"
         app:layout_constraintLeft_toLeftOf="@+id/parent"
 

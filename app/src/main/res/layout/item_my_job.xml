@@ -4,6 +4,7 @@
     android:id="@+id/my_job_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/item_selector"
     android:gravity="center"
     android:orientation="horizontal"
     android:padding="@dimen/activity_horizontal_margin">
@@ -22,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@android:color/transparent"
+        android:contentDescription="@string/job_settings"
         android:src="@drawable/settings" />
 
 </LinearLayout>

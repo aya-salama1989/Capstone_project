@@ -1,6 +1,8 @@
 package com.jobease.www.jobease.activities;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -15,6 +17,7 @@ public class JobDetailsActivity extends AppCompatActivity {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     private String data;
+    private JobDetailsFragment jobDetailsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +30,18 @@ public class JobDetailsActivity extends AppCompatActivity {
             Logging.log("Mafesh Dataaaa");
         }
         setToolBar();
-        JobDetailsFragment jobDetailsFragment = JobDetailsFragment.newInstance(data);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_placeHolder, jobDetailsFragment).commit();
+
+            jobDetailsFragment = JobDetailsFragment.newInstance(data);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_placeHolder, jobDetailsFragment).commit();
+
+
     }
+
 
 
     private void setToolBar() {
         toolbar.setTitle(getString(R.string.job_details));
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.jobease.www.jobease.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,7 +70,9 @@ public class AddJobFragment extends Fragment {
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_add_job, container, false);
         ButterKnife.bind(this, v);
-        if(getArguments().getString(JOB_OBJECT)!=null||!getArguments().getString(JOB_OBJECT).isEmpty()){
+        if (getArguments().getString(JOB_OBJECT).isEmpty()) {
+            setVisibility(btnAddJob);
+        } else {
             setVisibility(btnEditJob);
             try {
                 jsonObject = new JSONObject(getArguments().getString(JOB_OBJECT));
@@ -79,13 +82,35 @@ public class AddJobFragment extends Fragment {
             } catch (JSONException e) {
                 Logging.log(e.getMessage());
             }
-        }else{
-            setVisibility(btnAddJob);
-
         }
 
         bindData();
         return v;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            etJobTitle.setText(savedInstanceState.getString("jobTitle"));
+            etJobSalary.setText(savedInstanceState.getString("jobSalary"));
+            etJobCurrency.setText(savedInstanceState.getString("jobCurrency"));
+            etJobNoOfWorkers.setText(savedInstanceState.getString("noOfWorkers"));
+            etJobAddress.setText(savedInstanceState.getString("jobAddress"));
+            etJobTDescription.setText(savedInstanceState.getString("jobDescription"));
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("jobTitle", jobTitle);
+        outState.putString("jobSalary", jobSalary);
+        outState.putString("jobCurrency", jobCurrency);
+        outState.putString("noOfWorkers", noOfWorkers);
+        outState.putString("jobAddress", jobAddress);
+        outState.putString("jobDescription", jobDescription);
     }
 
     private void bindData() {
@@ -119,7 +144,6 @@ public class AddJobFragment extends Fragment {
                 editAJob(job);
                 emptyViews();
                 startActivity(new Intent(getActivity(), HomeActivity.class));
-
             }
         });
 
@@ -148,14 +172,11 @@ public class AddJobFragment extends Fragment {
                 job.setSalary(jobSalary);
                 job.setCurrency(jobCurrency);
                 job.setUserId(new UserSettings().getUserID(getActivity()));
-//                Map<String, User> map = new HashMap<>();
-//                map.put("ay haga", new User());
-//                job.setAppliedUsers(map);
                 //TODO: populate extra data
 //                1- get current long and lat if user agreed or already saved before
-                createJob(job);
+                createJob(job, getActivity());
                 emptyViews();
-//                super.onBackPressed();
+                getActivity().onBackPressed();
             }
         });
     }
