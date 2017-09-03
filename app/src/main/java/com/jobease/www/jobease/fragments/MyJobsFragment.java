@@ -1,6 +1,7 @@
 package com.jobease.www.jobease.fragments;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,12 +24,11 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.jobease.www.jobease.database.FireBaseDataBaseHelper.getAllJobs;
 import static com.jobease.www.jobease.database.FireBaseDataBaseHelper.getMyJobs;
 
 
 public class MyJobsFragment extends Fragment implements
-        FireBaseDataBaseHelper.JobsDataChangeListener, MyJobsRecyclerAdapter.OnMyJobClickListener, DialogActionsListener {
+        MyJobsRecyclerAdapter.OnMyJobClickListener, DialogActionsListener {
     public static final int FRAGMENT_APPLIERS = 2;
 
     @BindView(R.id.rv_appliers)
@@ -55,16 +55,10 @@ public class MyJobsFragment extends Fragment implements
         ButterKnife.bind(this, v);
         myJobs = new ArrayList<>();
         bindData();
+        new MyAsyncTask().execute();
         return v;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (myJobs.isEmpty()) {
-            getData();
-        }
-    }
 
     private void bindData() {
         myJobsRecyclerAdapter = new MyJobsRecyclerAdapter(this, myJobs);
@@ -73,16 +67,6 @@ public class MyJobsFragment extends Fragment implements
         recyclerView.setLayoutManager(linearLayoutManager);
     }
 
-    private void getData() {
-        getMyJobs(this, getActivity());
-    }
-
-
-    @Override
-    public void onJobsDataChange(ArrayList<Job> jobs, int type) {
-        myJobs.addAll(jobs);
-        myJobsRecyclerAdapter.notifyDataSetChanged();
-    }
 
     @Override
     public void OnMyJobItemClick(int type, int position) {
@@ -93,20 +77,45 @@ public class MyJobsFragment extends Fragment implements
             PosterJobActions posterJobActions = new PosterJobActions();
             posterJobActions.newInstance(this, jsonObject).show(getChildFragmentManager(), "Poster_Actions");
         } else {
-
-                Map<String, User> users = myJobs.get(position).getAppliedUsers();
-                String json = gson.toJson(users);
-                Intent intent = new Intent(getActivity(), JobAppliersActivity.class);
-                intent.putExtra("appliersList", json.toString());
-                startActivity(intent);
-
+            Map<String, User> users = myJobs.get(position).getAppliedUsers();
+            String json = gson.toJson(users);
+            Intent intent = new Intent(getActivity(), JobAppliersActivity.class);
+            intent.putExtra("appliersList", json.toString());
+            startActivity(intent);
         }
     }
 
     @Override
     public void onActionDone(Object... objects) {
         myJobs.clear();
-        getAllJobs(this);
+        new MyAsyncTask().execute();
         myJobsRecyclerAdapter.notifyDataSetChanged();
+    }
+
+    class MyAsyncTask extends AsyncTask<Void, Integer, ArrayList<Job>>
+            implements FireBaseDataBaseHelper.JobsDataChangeListener {
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected ArrayList<Job> doInBackground(Void... params) {
+            getMyJobs(this, getActivity());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Job> jobs) {
+            super.onPostExecute(jobs);
+        }
+
+
+        @Override
+        public void onJobsDataChange(ArrayList<Job> jobs, int type) {
+            myJobs.addAll(jobs);
+            myJobsRecyclerAdapter.notifyDataSetChanged();
+        }
     }
 }

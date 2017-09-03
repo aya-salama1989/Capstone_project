@@ -1,0 +1,56 @@
+<resources>
+    <!-- paddings and margins Size Variations -->
+
+    <dimen name="xx_small">2dp</dimen>
+    <dimen name="x_small">4dp</dimen>
+    <dimen name="small">8dp</dimen>
+    <dimen name="medium">12dp</dimen>
+    <dimen name="large">16dp</dimen>
+    <dimen name="x_large">24dp</dimen>
+    <dimen name="xx_large">32dp</dimen>
+
+    <!-- fonts Size Variations -->
+
+    <dimen name="font_xx_large">24sp</dimen>
+    <dimen name="font_x_large">20sp</dimen>
+    <dimen name="font_large">18sp</dimen>
+    <dimen name="font_l_medium">16sp</dimen>
+    <dimen name="font_medium">14sp</dimen>
+    <dimen name="font_small">12sp</dimen>
+    <dimen name="font_x_small">10sp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">16dp</dimen>
+    <dimen name="nav_header_height">160dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+
+    <!-- Button Sizes Variations -->
+
+    <dimen name="button_height">42dp</dimen>
+    <dimen name="button_width">42dp</dimen>
+    <dimen name="button_width_medium">120dp</dimen>
+    <dimen name="button_width_large">200dp</dimen>
+
+    <dimen name="list_item_height">72dp</dimen>
+    <dimen name="avatar_dimensions">65dp</dimen>
+
+
+    <dimen name="s_400">400dp</dimen>
+    <dimen name="s_300">300dp</dimen>
+    <dimen name="s_250">250dp</dimen>
+    <dimen name="s_200">200dp</dimen>
+    <dimen name="s_150">150dp</dimen>
+    <dimen name="s_100">100dp</dimen>
+    <dimen name="s_50">50dp</dimen>
+    <dimen name="view_height">0.7dp</dimen>
+    <dimen name="s_70">70dp</dimen>
+
+    <!--
+Refer to App Widget Documentation for margin information
+http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
+    -->
+    <dimen name="widget_margin">8dp</dimen>
+</resources>

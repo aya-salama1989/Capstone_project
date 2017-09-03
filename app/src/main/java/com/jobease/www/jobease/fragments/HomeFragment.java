@@ -2,10 +2,12 @@ package com.jobease.www.jobease.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.jobease.www.jobease.R;
+import com.jobease.www.jobease.Utilities.Logging;
 import com.jobease.www.jobease.Utilities.UserSettings;
 import com.jobease.www.jobease.activities.AddJobActivity;
 import com.jobease.www.jobease.activities.JobDetailsActivity;
@@ -38,6 +41,8 @@ public class HomeFragment extends Fragment implements JobsRecyclerAdapter.JobCli
     private static final String IS_MULTIPANE = "multiPane";
     private static final String KEY_RECYCLER_STATE = "state";
     private static final String KEY_DATA_ARRAY = "data";
+    private static final String KEY_POSITION = "position";
+
 
     private static FragmentInteractionListener mFragmentInteractionListener;
     @BindView(R.id.rv_jobs)
@@ -45,24 +50,21 @@ public class HomeFragment extends Fragment implements JobsRecyclerAdapter.JobCli
     @BindView(R.id.fab)
     FloatingActionButton fab;
     Gson gson = new Gson();
+    Parcelable layoutManagerStateInstance;
     private ArrayList<Job> mJobs;
-    private int selectionPosition;
-    private LinearLayoutManager linearLayoutManager;
-    //    private OnFragmentInteractionListener mListener;
+    private GridLayoutManager linearLayoutManager;
     private JobsRecyclerAdapter jobsRecyclerAdapter;
-    private Parcelable mListState;
-    private Bundle mBundleRecyclerViewState;
+    private int mPosition = recyclerView.NO_POSITION;
+    private int scrollPosition = 0;
+    private int Pos = 0;
 
     public HomeFragment() {
         // Required empty public constructor
     }
 
-    public static HomeFragment newInstance(boolean param1, FragmentInteractionListener fragmentInteractionListener) {
+    public static HomeFragment newInstance(FragmentInteractionListener fragmentInteractionListener) {
         mFragmentInteractionListener = fragmentInteractionListener;
         HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putBoolean(IS_MULTIPANE, param1);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -72,16 +74,15 @@ public class HomeFragment extends Fragment implements JobsRecyclerAdapter.JobCli
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, v);
         mJobs = new ArrayList<>();
-
         if (savedInstanceState != null) {
-            if (HomeFragment.this.isAdded()) {
-                onRestoreDataBindViews();
-                mListState = savedInstanceState.getParcelable(KEY_RECYCLER_STATE);
-                mJobs.addAll(savedInstanceState.getParcelableArrayList(KEY_DATA_ARRAY));
-            }
-        } else {
-            bindViews();
+            int pos = savedInstanceState.getInt(KEY_POSITION);
+//            recyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerStateInstance);
         }
+
+        if (layoutManagerStateInstance != null) {
+            recyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerStateInstance);
+        }
+        bindViews();
         return v;
     }
 
@@ -95,32 +96,50 @@ public class HomeFragment extends Fragment implements JobsRecyclerAdapter.JobCli
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable(KEY_RECYCLER_STATE, recyclerView.getLayoutManager().onSaveInstanceState());
+        outState.putInt(KEY_POSITION, mPosition);
+        outState.putInt("pos", linearLayoutManager.findFirstVisibleItemPosition());
+
+        outState.putParcelable(KEY_RECYCLER_STATE, layoutManagerStateInstance);
         outState.putParcelableArrayList(KEY_DATA_ARRAY, mJobs);
+        super.onSaveInstanceState(outState);
+
+
     }
 
 //    @Override
 //    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+//        Logging.log("onActivityCreated");
+//
 //        super.onActivityCreated(savedInstanceState);
+//        if (savedInstanceState != null) {
+////            recyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerStateInstance);
+//
+//            Pos = savedInstanceState.getInt("pos");
+//        }
 //
 //    }
 
+//    @Override
+//    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+//        Logging.log("onViewStateRestored");
+//
+//        super.onViewStateRestored(savedInstanceState);
+//        if (savedInstanceState != null) {
+//            int pos = savedInstanceState.getInt(KEY_POSITION);
+//            recyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerStateInstance);
+//        }
+//    }
 
-    private void onRestoreDataBindViews() {
-        jobsRecyclerAdapter.notifyDataSetChanged();
-        recyclerView.getLayoutManager().onRestoreInstanceState(mListState);
-    }
 
     private void bindViews() {
         jobsRecyclerAdapter = new JobsRecyclerAdapter(mJobs, this);
         recyclerView.setAdapter(jobsRecyclerAdapter);
-        linearLayoutManager = new LinearLayoutManager(getActivity());
 
-
+        linearLayoutManager = new GridLayoutManager(getActivity(), 1);
         recyclerView.setLayoutManager(linearLayoutManager);
+
         fab.setOnClickListener((View view) -> {
-            if (getArguments().getBoolean(IS_MULTIPANE)) {
+            if (getActivity().getResources().getBoolean(R.bool.twoPaneMode)) {
                 mFragmentInteractionListener.onInteraction("1");
             } else {
                 Intent intent = new Intent(getActivity(), AddJobActivity.class);
@@ -144,8 +163,8 @@ public class HomeFragment extends Fragment implements JobsRecyclerAdapter.JobCli
                 }
                 break;
             case ITEM_JOB:
-                selectionPosition = position;
-                if (getArguments().getBoolean(IS_MULTIPANE)) {
+                mPosition = position;
+                if (getResources().getBoolean(R.bool.twoPaneMode)) {
                     mFragmentInteractionListener.onInteraction(jsonObject);
                 } else {
                     Intent intent = new Intent(getActivity(), JobDetailsActivity.class);
@@ -161,11 +180,16 @@ public class HomeFragment extends Fragment implements JobsRecyclerAdapter.JobCli
     public void onJobsDataChange(ArrayList<Job> jobs, int type) {
         mJobs.addAll(jobs);
         jobsRecyclerAdapter.notifyDataSetChanged();
-        mFragmentInteractionListener.onInteraction(gson.toJson(mJobs.get(0)));
-//        new Handler().postDelayed(() -> {
-////            recyclerView.findViewHolderForAdapterPosition(0).itemView.performClick();
-//
-//        }, 800);
+
+        if (Pos != 0) {
+            new Handler().postDelayed(() -> {
+                recyclerView.smoothScrollToPosition(Pos);
+//                recyclerView.findViewHolderForAdapterPosition(Pos).itemView.performClick();
+            }, 500);
+        }
+
+        if (mPosition == recyclerView.NO_POSITION) mPosition = 0;
+        mFragmentInteractionListener.onInteraction(gson.toJson(mJobs.get(mPosition)));
     }
 
 
@@ -175,4 +199,6 @@ public class HomeFragment extends Fragment implements JobsRecyclerAdapter.JobCli
         getAllJobs(this);
         jobsRecyclerAdapter.notifyDataSetChanged();
     }
+
+
 }

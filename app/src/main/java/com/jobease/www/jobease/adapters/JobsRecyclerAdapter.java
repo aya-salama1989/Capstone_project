@@ -57,6 +57,11 @@ public class JobsRecyclerAdapter extends RecyclerView.Adapter<JobsRecyclerAdapte
     }
 
     @Override
+    public long getItemId(int position) {
+        return jobs.get(position).hashCode();
+    }
+
+    @Override
     public int getItemCount() {
         return jobs.size();
     }

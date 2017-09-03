@@ -59,17 +59,17 @@ public class HomeActivity extends AppCompatActivity
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
 
-        if (savedInstanceState != null) {
-            getSupportFragmentManager().getFragment(savedInstanceState, "jobs_frag");
-        }
+//        if (savedInstanceState != null) {
+//            getSupportFragmentManager().getFragment(savedInstanceState, "jobs_frag");
+//        }
     }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        getSupportFragmentManager().putFragment(outState, "jobs_frag", fragment);
-
-    }
+//
+//    @Override
+//    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+//        super.onSaveInstanceState(outState, outPersistentState);
+//        getSupportFragmentManager().putFragment(outState, "jobs_frag", fragment);
+//
+//    }
 
     private void initMobileViews() {
         getFragment(FRAGMENT_HOME);
@@ -152,7 +152,7 @@ public class HomeActivity extends AppCompatActivity
 
         switch (fragmentId) {
             case FRAGMENT_HOME:
-                fragment = HomeFragment.newInstance(getResources().getBoolean(R.bool.twoPaneMode), this);
+                fragment = HomeFragment.newInstance(this);
                 break;
             case FRAGMENT_APPLIERS:
                 fragment = MyJobsFragment.newInstance();
@@ -182,6 +182,8 @@ public class HomeActivity extends AppCompatActivity
                     AddJobFragment addJobFragment = AddJobFragment.newInstance("");
                     getSupportFragmentManager().beginTransaction().replace(R.id.details_frag, addJobFragment).commit();
                 } else {
+
+
                     JobDetailsFragment jobDetailsFragment = JobDetailsFragment.newInstance(jobData);
                     getSupportFragmentManager().beginTransaction().replace(R.id.details_frag, jobDetailsFragment).commit();
                 }

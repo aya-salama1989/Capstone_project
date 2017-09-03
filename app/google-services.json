@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "325012577765",
+    "firebase_url": "https://jobease-2a285.firebaseio.com",
+    "project_id": "jobease-2a285",
+    "storage_bucket": "jobease-2a285.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:325012577765:android:6722c7587f15f35f",
+        "android_client_info": {
+          "package_name": "com.jobease.www.jobease"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "325012577765-rq6l0kq1l777vu96k82fqi7im14eba6r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jobease.www.jobease",
+            "certificate_hash": "488ba03cc9b3a38da6db08317e649b9ce57e73dc"
+          }
+        },
+        {
+          "client_id": "325012577765-ug1785fi758obc2ghni5kl40s5dp8bmh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2UJgrcOt9vXioieAR0KDVZ2v-Vx2Fs3s"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "325012577765-ug1785fi758obc2ghni5kl40s5dp8bmh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

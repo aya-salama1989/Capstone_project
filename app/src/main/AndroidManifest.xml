@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jobease.www.jobease">
 
-    <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> -->
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -62,14 +60,12 @@
         </receiver>
 
         <service
-            android:name=".LatestJobsIntentService"
-            android:exported="false" />
-        <service
             android:name=".JobsWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <activity android:name=".activities.MyProfileActivity" />
-        <activity android:name=".activities.MyJobsActivity"></activity>
+        <activity android:name=".activities.MyJobsActivity" />
+
     </application>
 
 </manifest>

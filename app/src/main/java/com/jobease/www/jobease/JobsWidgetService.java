@@ -102,9 +102,6 @@ class JobsRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory,
     @Override
     public void onJobsDataChange(ArrayList<Job> jobs, int type) {
         mJobs.addAll(jobs);
-
-        //TODO - mentor: trying to update data here
         AppWidgetManager.getInstance(mContext).notifyAppWidgetViewDataChanged(mAppWidgetId, R.id.widget_list);
-
     }
 }

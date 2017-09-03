@@ -170,6 +170,8 @@ public class FireBaseDataBaseHelper {
         });
     }
 
+
+
     public static void editAJob(Job job) {
         getDataBaseReference("posts").child(job.getJobId()).setValue(job);
     }
