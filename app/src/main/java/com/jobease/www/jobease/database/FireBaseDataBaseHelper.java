@@ -52,10 +52,10 @@ public class FireBaseDataBaseHelper {
 
     public static void editUser(User user, Context context) {
         usersDBRef = getDataBaseReference("users").child(user.getUid());
-        usersDBRef.setValue(user, (DatabaseError databaseError, DatabaseReference databaseReference)-> {
-            if(databaseError==null){
+        usersDBRef.setValue(user, (DatabaseError databaseError, DatabaseReference databaseReference) -> {
+            if (databaseError == null) {
                 Logging.longToast(context, context.getString(R.string.edit_success));
-            }else {
+            } else {
                 Logging.log(databaseError.getMessage());
             }
         });
@@ -63,10 +63,10 @@ public class FireBaseDataBaseHelper {
 
     public static void flagUser(User user, Context context) {
         usersDBRef = getDataBaseReference("users").child(user.getUid()).child("noFlags");
-        usersDBRef.setValue(user.getNoFlags() + 1,(DatabaseError databaseError, DatabaseReference databaseReference)-> {
-            if(databaseError==null){
+        usersDBRef.setValue(user.getNoFlags() + 1, (DatabaseError databaseError, DatabaseReference databaseReference) -> {
+            if (databaseError == null) {
                 Logging.longToast(context, context.getString(R.string.flagged_success));
-            }else {
+            } else {
                 Logging.log(databaseError.getMessage());
             }
 
@@ -114,7 +114,10 @@ public class FireBaseDataBaseHelper {
                 ArrayList<Job> jobs = new ArrayList<>();
                 Job job = dataSnapshot.getValue(Job.class);
                 jobs.add(job);
-                jobsDataChangeListener.onJobsDataChange(jobs, 1);
+
+//                if (!dataSnapshot.getChildren().iterator().hasNext()) {
+                    jobsDataChangeListener.onJobsDataChange(jobs, 1);
+//                }
             }
 
             @Override
@@ -135,6 +138,37 @@ public class FireBaseDataBaseHelper {
             }
         });
 
+    }
+
+    public static  ArrayList<Job> getAllJobs() {
+        ArrayList<Job> jobs = new ArrayList<>();
+
+        postsDBRef = getDataBaseReference("posts");
+        postsDBRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Job job = dataSnapshot.getValue(Job.class);
+                jobs.add(job);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.i(getClass().getName().toString(), ": " + databaseError.getMessage());
+            }
+        });
+        return jobs;
     }
 
     public static void getMyJobs(JobsDataChangeListener jobsDataChangeListener, Activity activity) {
@@ -171,7 +205,6 @@ public class FireBaseDataBaseHelper {
     }
 
 
-
     public static void editAJob(Job job) {
         getDataBaseReference("posts").child(job.getJobId()).setValue(job);
     }
@@ -197,13 +230,13 @@ public class FireBaseDataBaseHelper {
         User mUser = user;
         String btngan = user.getUid();
         getDataBaseReference("posts").child(job.getJobId()).child("appliedUsers").child(btngan)
-                .setValue(user, (DatabaseError databaseError, DatabaseReference databaseReference)-> {
-                if(databaseError==null){
-                    Logging.longToast(context, context.getString(R.string.applied_successfully));
-                }else {
-                    Logging.log(databaseError.getMessage());
-                }
-        });
+                .setValue(user, (DatabaseError databaseError, DatabaseReference databaseReference) -> {
+                    if (databaseError == null) {
+                        Logging.longToast(context, context.getString(R.string.applied_successfully));
+                    } else {
+                        Logging.log(databaseError.getMessage());
+                    }
+                });
     }
 
 

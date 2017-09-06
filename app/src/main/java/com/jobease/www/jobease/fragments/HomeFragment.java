@@ -3,11 +3,10 @@ package com.jobease.www.jobease.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,10 +37,10 @@ public class HomeFragment extends Fragment implements JobsRecyclerAdapter.JobCli
 
     public static final int FRAGMENT_HOME = 0;
 
-    private static final String IS_MULTIPANE = "multiPane";
-    private static final String KEY_RECYCLER_STATE = "state";
     private static final String KEY_DATA_ARRAY = "data";
-    private static final String KEY_POSITION = "position";
+    private static final String KEY_SCROLLPOSITION = "scroll_position";
+    private static final String KEY_SELECTIONPOSITION = "selection_position";
+    private static final String KEY_LAYOUT_MANAGER = "layout_manager_state";
 
 
     private static FragmentInteractionListener mFragmentInteractionListener;
@@ -50,13 +49,10 @@ public class HomeFragment extends Fragment implements JobsRecyclerAdapter.JobCli
     @BindView(R.id.fab)
     FloatingActionButton fab;
     Gson gson = new Gson();
-    Parcelable layoutManagerStateInstance;
     private ArrayList<Job> mJobs;
-    private GridLayoutManager linearLayoutManager;
+    private RecyclerView.LayoutManager linearLayoutManager;
     private JobsRecyclerAdapter jobsRecyclerAdapter;
-    private int mPosition = recyclerView.NO_POSITION;
-    private int scrollPosition = 0;
-    private int Pos = 0;
+    private int scrollPosition = 0, selectionPosition = 0;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -65,26 +61,39 @@ public class HomeFragment extends Fragment implements JobsRecyclerAdapter.JobCli
     public static HomeFragment newInstance(FragmentInteractionListener fragmentInteractionListener) {
         mFragmentInteractionListener = fragmentInteractionListener;
         HomeFragment fragment = new HomeFragment();
+        fragment.setRetainInstance(true);
         return fragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Logging.log("onCreateView");
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, v);
         mJobs = new ArrayList<>();
         if (savedInstanceState != null) {
-            int pos = savedInstanceState.getInt(KEY_POSITION);
-//            recyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerStateInstance);
+            scrollPosition = savedInstanceState.getInt(KEY_SCROLLPOSITION);
+            selectionPosition = savedInstanceState.getInt(KEY_SELECTIONPOSITION);
+            mJobs.addAll(savedInstanceState.getParcelableArrayList(KEY_DATA_ARRAY));
+            bindViewsAfterRotation(savedInstanceState.getParcelableArrayList(KEY_DATA_ARRAY),
+                    scrollPosition, selectionPosition);
+        } else {
+            bindViews();
         }
 
-        if (layoutManagerStateInstance != null) {
-            recyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerStateInstance);
-        }
-        bindViews();
+        fab.setOnClickListener((View view) -> {
+            if (getActivity().getResources().getBoolean(R.bool.twoPaneMode)) {
+                mFragmentInteractionListener.onInteraction("1");
+            } else {
+                Intent intent = new Intent(getActivity(), AddJobActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
         return v;
     }
+
 
     @Override
     public void onResume() {
@@ -96,57 +105,39 @@ public class HomeFragment extends Fragment implements JobsRecyclerAdapter.JobCli
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(KEY_POSITION, mPosition);
-        outState.putInt("pos", linearLayoutManager.findFirstVisibleItemPosition());
-
-        outState.putParcelable(KEY_RECYCLER_STATE, layoutManagerStateInstance);
+        int firstVisiblePosition = ((LinearLayoutManager) linearLayoutManager).findFirstVisibleItemPosition();
+        outState.putInt(KEY_SCROLLPOSITION, firstVisiblePosition);
+        outState.putInt(KEY_SELECTIONPOSITION, selectionPosition);
         outState.putParcelableArrayList(KEY_DATA_ARRAY, mJobs);
+        outState.putParcelable(KEY_LAYOUT_MANAGER, linearLayoutManager.onSaveInstanceState());
         super.onSaveInstanceState(outState);
-
-
     }
 
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        Logging.log("onActivityCreated");
-//
-//        super.onActivityCreated(savedInstanceState);
-//        if (savedInstanceState != null) {
-////            recyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerStateInstance);
-//
-//            Pos = savedInstanceState.getInt("pos");
-//        }
-//
-//    }
+    private void bindViewsAfterRotation(ArrayList<Job> jobs, int scrollPosition, int selectionPosition) {
+        jobsRecyclerAdapter = new JobsRecyclerAdapter(jobs, this);
+        recyclerView.setAdapter(jobsRecyclerAdapter);
 
-//    @Override
-//    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-//        Logging.log("onViewStateRestored");
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        if (scrollPosition != recyclerView.NO_POSITION)
+            recyclerView.smoothScrollToPosition(scrollPosition);
+
 //
-//        super.onViewStateRestored(savedInstanceState);
-//        if (savedInstanceState != null) {
-//            int pos = savedInstanceState.getInt(KEY_POSITION);
-//            recyclerView.getLayoutManager().onRestoreInstanceState(layoutManagerStateInstance);
-//        }
-//    }
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+////                recyclerView.findViewHolderForAdapterPosition(selectionPosition).itemView.setSelected(true);
+//            }
+//        }, 500);
+    }
 
 
     private void bindViews() {
         jobsRecyclerAdapter = new JobsRecyclerAdapter(mJobs, this);
         recyclerView.setAdapter(jobsRecyclerAdapter);
-
-        linearLayoutManager = new GridLayoutManager(getActivity(), 1);
+        linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-
-        fab.setOnClickListener((View view) -> {
-            if (getActivity().getResources().getBoolean(R.bool.twoPaneMode)) {
-                mFragmentInteractionListener.onInteraction("1");
-            } else {
-                Intent intent = new Intent(getActivity(), AddJobActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -163,7 +154,7 @@ public class HomeFragment extends Fragment implements JobsRecyclerAdapter.JobCli
                 }
                 break;
             case ITEM_JOB:
-                mPosition = position;
+                selectionPosition = position;
                 if (getResources().getBoolean(R.bool.twoPaneMode)) {
                     mFragmentInteractionListener.onInteraction(jsonObject);
                 } else {
@@ -178,18 +169,9 @@ public class HomeFragment extends Fragment implements JobsRecyclerAdapter.JobCli
 
     @Override
     public void onJobsDataChange(ArrayList<Job> jobs, int type) {
+        //gets called 8 times so stupid -_-
         mJobs.addAll(jobs);
         jobsRecyclerAdapter.notifyDataSetChanged();
-
-        if (Pos != 0) {
-            new Handler().postDelayed(() -> {
-                recyclerView.smoothScrollToPosition(Pos);
-//                recyclerView.findViewHolderForAdapterPosition(Pos).itemView.performClick();
-            }, 500);
-        }
-
-        if (mPosition == recyclerView.NO_POSITION) mPosition = 0;
-        mFragmentInteractionListener.onInteraction(gson.toJson(mJobs.get(mPosition)));
     }
 
 

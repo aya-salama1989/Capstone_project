@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.jobease.www.jobease.R;
+import com.jobease.www.jobease.Utilities.Logging;
 import com.jobease.www.jobease.activities.JobAppliersActivity;
 import com.jobease.www.jobease.adapters.MyJobsRecyclerAdapter;
 import com.jobease.www.jobease.database.FireBaseDataBaseHelper;
@@ -35,7 +36,8 @@ public class MyJobsFragment extends Fragment implements
     RecyclerView recyclerView;
     private ArrayList<Job> myJobs;
     private MyJobsRecyclerAdapter myJobsRecyclerAdapter;
-
+    private LinearLayoutManager linearLayoutManager;
+    private int scrollPosition;
 
     public MyJobsFragment() {
         // Required empty public constructor
@@ -52,19 +54,34 @@ public class MyJobsFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_appliers, container, false);
+        Logging.log("onCreateView");
         ButterKnife.bind(this, v);
         myJobs = new ArrayList<>();
         bindData();
         new MyAsyncTask().execute();
+        if (savedInstanceState != null) {
+            scrollPosition = savedInstanceState.getInt("firstVisiblePosition");
+        }
         return v;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        int firstVisiblePosition = linearLayoutManager.findFirstVisibleItemPosition();
+        outState.putInt("firstVisiblePosition", firstVisiblePosition);
+        super.onSaveInstanceState(outState);
     }
 
 
     private void bindData() {
         myJobsRecyclerAdapter = new MyJobsRecyclerAdapter(this, myJobs);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setAdapter(myJobsRecyclerAdapter);
         recyclerView.setLayoutManager(linearLayoutManager);
+
+        if (scrollPosition != recyclerView.NO_POSITION) {
+            recyclerView.smoothScrollToPosition(scrollPosition);
+        }
     }
 
 

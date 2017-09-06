@@ -2,6 +2,7 @@ package com.jobease.www.jobease.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,6 +37,8 @@ public class JobAppliersActivity extends AppCompatActivity implements UsersRecyc
     TextView textView;
     private UsersRecyclerAdapter usersRecyclerAdapter;
     private ArrayList<User> mUsers;
+    private LinearLayoutManager linearLayoutManager;
+    private int scrollPosition, selectedPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +49,38 @@ public class JobAppliersActivity extends AppCompatActivity implements UsersRecyc
         bindViews();
     }
 
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        int firstVisiblePosition = linearLayoutManager.findFirstVisibleItemPosition();
+        outState.putInt("firstVisiblePosition", firstVisiblePosition);
+        outState.putInt("selectedPosition", selectedPosition);
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        scrollPosition = savedInstanceState.getInt("firstVisiblePosition");
+        selectedPosition = savedInstanceState.getInt("selectedPosition");
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+
+
     private void bindViews() {
         usersRecyclerAdapter = new UsersRecyclerAdapter(mUsers, this);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setAdapter(usersRecyclerAdapter);
         recyclerView.setLayoutManager(linearLayoutManager);
+
+        if (scrollPosition != recyclerView.NO_POSITION) {
+            recyclerView.smoothScrollToPosition(scrollPosition);
+        }
+
+        //TODO-2: to Mentor, what should i do to avoid this bug
+
+//        if (selectedPosition != recyclerView.NO_POSITION) {
+//            recyclerView.findViewHolderForAdapterPosition(selectedPosition).itemView.setSelected(true);
+//        }
     }
 
     private void getData() {
@@ -95,6 +125,7 @@ public class JobAppliersActivity extends AppCompatActivity implements UsersRecyc
                 break;*/
 
             case ITEM_CLICK:
+                selectedPosition = position;
                 Intent intent = new Intent(JobAppliersActivity.this, UserProfileActivity.class);
                 Gson gson = new Gson();
                 intent.putExtra("userData", gson.toJson(mUsers.get(position)).toString());

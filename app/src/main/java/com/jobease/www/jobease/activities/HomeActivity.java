@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,6 +20,7 @@ import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.jobease.www.jobease.R;
 import com.jobease.www.jobease.Utilities.AppSettings;
+import com.jobease.www.jobease.Utilities.Logging;
 import com.jobease.www.jobease.adapters.SideMenuRecyclerAdapter;
 import com.jobease.www.jobease.fragments.AddJobFragment;
 import com.jobease.www.jobease.fragments.FragmentInteractionListener;
@@ -54,22 +56,22 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
         MobileAds.initialize(this, getString(R.string.Add_mob_id));
-        initMobileViews();
         mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
-
-//        if (savedInstanceState != null) {
-//            getSupportFragmentManager().getFragment(savedInstanceState, "jobs_frag");
-//        }
+        if (savedInstanceState != null) {
+            getSupportFragmentManager().getFragment(savedInstanceState, "jobs_frag");
+        } else {
+            initMobileViews();
+        }
     }
-//
-//    @Override
-//    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-//        super.onSaveInstanceState(outState, outPersistentState);
-//        getSupportFragmentManager().putFragment(outState, "jobs_frag", fragment);
-//
-//    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        getSupportFragmentManager().putFragment(outState, "jobs_frag", fragment);
+
+        super.onSaveInstanceState(outState, outPersistentState);
+    }
 
     private void initMobileViews() {
         getFragment(FRAGMENT_HOME);
@@ -163,13 +165,8 @@ public class HomeActivity extends AppCompatActivity
             default:
                 throw new UnsupportedOperationException("UnSupportedFragmentId: " + fragmentId);
         }
-
-
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragments_holder, fragment)
-                .setTransition(android.R.anim.bounce_interpolator).commit();
-
-
+                .replace(R.id.fragments_holder, fragment).commit();
         return fragment;
     }
 
@@ -180,12 +177,19 @@ public class HomeActivity extends AppCompatActivity
                 String jobData = (String) data[0];
                 if (jobData.equalsIgnoreCase("1")) {
                     AddJobFragment addJobFragment = AddJobFragment.newInstance("");
-                    getSupportFragmentManager().beginTransaction().replace(R.id.details_frag, addJobFragment).commit();
+                    getFragmentManager().beginTransaction().replace(R.id.details_frag, addJobFragment).commitAllowingStateLoss();
                 } else {
-
-
                     JobDetailsFragment jobDetailsFragment = JobDetailsFragment.newInstance(jobData);
-                    getSupportFragmentManager().beginTransaction().replace(R.id.details_frag, jobDetailsFragment).commit();
+                    try {
+                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.details_frag, jobDetailsFragment).commitAllowingStateLoss();
+                    } catch (IllegalStateException e) {
+                        Logging.log(e.getMessage());
+
+                        //TODO-1: to Mentor, what should i do to avoid this bug
+                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.details_frag, jobDetailsFragment).commitAllowingStateLoss();
+                    }
                 }
             }
         }
