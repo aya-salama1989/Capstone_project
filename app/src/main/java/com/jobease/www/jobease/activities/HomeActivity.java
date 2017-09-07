@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -33,6 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.jobease.www.jobease.fragments.HomeFragment.FRAGMENT_HOME;
+import static com.jobease.www.jobease.fragments.HomeFragment.setListener;
 import static com.jobease.www.jobease.fragments.MyJobsFragment.FRAGMENT_APPLIERS;
 import static com.jobease.www.jobease.fragments.ProfileFragment.FRAGMENT_PROFILE;
 
@@ -66,16 +66,21 @@ public class HomeActivity extends AppCompatActivity
         }
     }
 
+
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         getSupportFragmentManager().putFragment(outState, "jobs_frag", fragment);
-
         super.onSaveInstanceState(outState, outPersistentState);
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+        setListener(this);
     }
 
     private void initMobileViews() {
         getFragment(FRAGMENT_HOME);
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -151,10 +156,9 @@ public class HomeActivity extends AppCompatActivity
     }
 
     private Fragment getFragment(int fragmentId) {
-
         switch (fragmentId) {
             case FRAGMENT_HOME:
-                fragment = HomeFragment.newInstance(this);
+                fragment = HomeFragment.newInstance();
                 break;
             case FRAGMENT_APPLIERS:
                 fragment = MyJobsFragment.newInstance();
@@ -175,21 +179,20 @@ public class HomeActivity extends AppCompatActivity
         if (data != null) {
             if (getResources().getBoolean(R.bool.twoPaneMode)) {
                 String jobData = (String) data[0];
-                if (jobData.equalsIgnoreCase("1")) {
-                    AddJobFragment addJobFragment = AddJobFragment.newInstance("");
-                    getFragmentManager().beginTransaction().replace(R.id.details_frag, addJobFragment).commitAllowingStateLoss();
-                } else {
-                    JobDetailsFragment jobDetailsFragment = JobDetailsFragment.newInstance(jobData);
-                    try {
-                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.details_frag, jobDetailsFragment).commitAllowingStateLoss();
-                    } catch (IllegalStateException e) {
-                        Logging.log(e.getMessage());
 
-                        //TODO-1: to Mentor, what should i do to avoid this bug
-                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.details_frag, jobDetailsFragment).commitAllowingStateLoss();
+                //TODO-1: throws an exception if the configuration changes then try to click an item in the list fragment of twopane view
+                try {
+                    if (jobData.equalsIgnoreCase("1")) {
+                        AddJobFragment addJobFragment = AddJobFragment.newInstance("");
+                        getFragmentManager().beginTransaction().addToBackStack("addJobFragment")
+                                .replace(R.id.details_frag, addJobFragment).commit();
+                    } else {
+                        JobDetailsFragment jobDetailsFragment = JobDetailsFragment.newInstance(jobData);
+                        getSupportFragmentManager().beginTransaction().addToBackStack("jobDetailsFragment")
+                                .replace(R.id.details_frag, jobDetailsFragment).commit();
                     }
+                } catch (IllegalStateException e) {
+                    Logging.log(e.getMessage());
                 }
             }
         }

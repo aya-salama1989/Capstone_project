@@ -26,8 +26,7 @@ import static com.jobease.www.jobease.database.FireBaseDataBaseHelper.getUser;
 
 
 public class JobDetailsFragment extends Fragment implements FireBaseDataBaseHelper.UserGettingListener {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String JOB_DATA = "job_data";
 
     @BindView(R.id.job_title)

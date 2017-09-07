@@ -98,7 +98,7 @@ public class JobsRecyclerAdapter extends RecyclerView.Adapter<JobsRecyclerAdapte
             jobTitleTV.setText(job.getTitle());
             jobLocationTV.setText(job.getAddress());
             jobDescriptionTV.setText(job.getDescription());
-            //TODO: currency, no of workers
+            //TODO: add currency, no of workers
         }
 
         @Override

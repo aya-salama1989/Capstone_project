@@ -58,11 +58,14 @@ public class HomeFragment extends Fragment implements JobsRecyclerAdapter.JobCli
         // Required empty public constructor
     }
 
-    public static HomeFragment newInstance(FragmentInteractionListener fragmentInteractionListener) {
-        mFragmentInteractionListener = fragmentInteractionListener;
+    public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
         fragment.setRetainInstance(true);
         return fragment;
+    }
+
+    public static void setListener(FragmentInteractionListener fragmentInteractionListener){
+        mFragmentInteractionListener = fragmentInteractionListener;
     }
 
     @Override
@@ -122,7 +125,7 @@ public class HomeFragment extends Fragment implements JobsRecyclerAdapter.JobCli
 
         if (scrollPosition != recyclerView.NO_POSITION)
             recyclerView.smoothScrollToPosition(scrollPosition);
-
+        //TODO-2 : throws a nullPointer exception when performing a click or a selection over an item programmatically
 //
 //        new Handler().postDelayed(new Runnable() {
 //            @Override
