@@ -1,20 +1,28 @@
 package com.jobease.www.jobease.activities;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.jobease.www.jobease.R;
+import com.jobease.www.jobease.database.FireBaseDataBaseHelper;
+import com.jobease.www.jobease.fragments.FragmentInteractionListener;
 import com.jobease.www.jobease.fragments.MyJobsFragment;
+import com.jobease.www.jobease.models.Job;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MyJobsActivity extends AppCompatActivity {
+import static com.jobease.www.jobease.database.FireBaseDataBaseHelper.getMyJobs;
+
+public class MyJobsActivity extends AppCompatActivity implements FragmentInteractionListener {
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
+    private ArrayList<Job> myJobs;
     private MyJobsFragment fragment;
 
     @Override
@@ -22,27 +30,64 @@ public class MyJobsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_jobs);
         ButterKnife.bind(this);
+        myJobs = new ArrayList<>();
         setToolBar();
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             getSupportFragmentManager().getFragment(savedInstanceState, "my_fragment");
-        }else {
-            fragment = MyJobsFragment.newInstance();
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_placeHolder, fragment).commit();
+        } else {
+            new MyAsyncTask().execute();
         }
     }
 
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        getSupportFragmentManager().putFragment(outState,"my_fragment",fragment);
+        getSupportFragmentManager().putFragment(outState, "my_fragment", fragment);
         super.onSaveInstanceState(outState, outPersistentState);
     }
 
 
-
-    private void setToolBar(){
+    private void setToolBar() {
         toolbar.setTitle(getString(R.string.my_jobs));
         setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public void onInteraction(Object... data) {
+        if (data != null) {
+            String jobData = (String) data[0];
+            if (jobData.equalsIgnoreCase("update data")) {
+                new MyAsyncTask().execute();
+            }
+        }
+    }
+
+    class MyAsyncTask extends AsyncTask<Void, Integer, ArrayList<Job>>
+            implements FireBaseDataBaseHelper.JobsDataChangeListener {
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected ArrayList<Job> doInBackground(Void... params) {
+            getMyJobs(this, MyJobsActivity.this);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Job> jobs) {
+            super.onPostExecute(jobs);
+            fragment = MyJobsFragment.newInstance(myJobs);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_placeHolder, fragment).commit();
+        }
+
+
+        @Override
+        public void onJobsDataChange(ArrayList<Job> jobs, int type) {
+            myJobs.addAll(jobs);
+        }
     }
 }

@@ -76,11 +76,6 @@ public class JobAppliersActivity extends AppCompatActivity implements UsersRecyc
             recyclerView.smoothScrollToPosition(scrollPosition);
         }
 
-        //TODO-2: to Mentor, what should i do to avoid this bug
-
-//        if (selectedPosition != recyclerView.NO_POSITION) {
-//            recyclerView.findViewHolderForAdapterPosition(selectedPosition).itemView.setSelected(true);
-//        }
     }
 
     private void getData() {

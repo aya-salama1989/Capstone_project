@@ -46,8 +46,9 @@ public class LoginActivity extends AppCompatActivity {
             initViews();
         }
 
-        if ((getIntent().getExtras() != null)) {
-            signOut();
+        if (getIntent() != null) {
+            if (getIntent().getExtras() != null && getIntent().getExtras().containsKey("logOut"))
+                signOut();
         }
     }
 
@@ -79,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(FacebookException exception) {
-                Logging.log(exception.getMessage());
+                Logging.log(exception.getMessage().toString());
             }
         });
     }
@@ -93,7 +94,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d(TAG, "handleFacebookAccessToken:" + token);
-
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, (@NonNull Task<AuthResult> task) -> {
@@ -124,16 +124,10 @@ public class LoginActivity extends AppCompatActivity {
     private void signOut() {
         mAuth.signOut();
         LoginManager.getInstance().logOut();
-
         Intent startMain = new Intent(Intent.ACTION_MAIN);
         startMain.addCategory(Intent.CATEGORY_HOME);
         startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(startMain);
-
-//        if (loginButton.getText().toString().equalsIgnoreCase(getString(R.string.log_out))) {
-////            loginButton.performClick();
-//            LoginManager.getInstance().logOut();
-//        }
     }
 
 

@@ -50,9 +50,9 @@ public class JobsRecyclerAdapter extends RecyclerView.Adapter<JobsRecyclerAdapte
     public void onBindViewHolder(JobItemViewHolder holder, int position) {
         holder.setData(jobs.get(position));
         if (position == selectedItem) {
-            holder.itemView.setBackgroundColor(Color.GRAY);
+            holder.itemView.setSelected(true);
         } else {
-            holder.itemView.setBackgroundColor(Color.TRANSPARENT);
+            holder.itemView.setSelected(false);
         }
     }
 

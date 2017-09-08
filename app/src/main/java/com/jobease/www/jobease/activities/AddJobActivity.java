@@ -35,16 +35,20 @@ public class AddJobActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             getSupportFragmentManager().getFragment(savedInstanceState, "add_job");
         } else {
-            getFragmentManager().beginTransaction().replace(R.id.fragment_placeHolder, addJobFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_placeHolder, addJobFragment).commit();
         }
         setToolBar();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        getSupportFragmentManager().putFragment(outState, "add_job", addJobFragment);
         super.onSaveInstanceState(outState, outPersistentState);
-        getFragmentManager().putFragment(outState, "add_job", addJobFragment);
     }
 
     private void setToolBar() {

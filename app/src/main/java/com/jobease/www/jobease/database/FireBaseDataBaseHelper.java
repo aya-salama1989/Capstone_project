@@ -111,13 +111,12 @@ public class FireBaseDataBaseHelper {
         postsDBRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Logging.log("dataSnapshot: " + dataSnapshot.getChildrenCount());
+
                 ArrayList<Job> jobs = new ArrayList<>();
                 Job job = dataSnapshot.getValue(Job.class);
                 jobs.add(job);
-
-//                if (!dataSnapshot.getChildren().iterator().hasNext()) {
-                    jobsDataChangeListener.onJobsDataChange(jobs, 1);
-//                }
+                jobsDataChangeListener.onJobsDataChange(jobs, 1);
             }
 
             @Override
@@ -140,7 +139,7 @@ public class FireBaseDataBaseHelper {
 
     }
 
-    public static  ArrayList<Job> getAllJobs() {
+    public static ArrayList<Job> getAllJobs() {
         ArrayList<Job> jobs = new ArrayList<>();
 
         postsDBRef = getDataBaseReference("posts");
@@ -177,7 +176,6 @@ public class FireBaseDataBaseHelper {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 ArrayList<Job> jobs = new ArrayList<>();
-
                 Job job = dataSnapshot.getValue(Job.class);
                 if (job.getUserId().equalsIgnoreCase(new UserSettings().getUserID(activity))) {
                     jobs.add(job);
@@ -226,14 +224,16 @@ public class FireBaseDataBaseHelper {
         getDataBaseReference("posts").child(job.getJobId()).child("noOfRaters").setValue(job.getNoOfRaters() + 1);
     }
 
-    public static void applyToAJob(Job job, User user, Context context) {
+    public static void applyToAJob(Job job, User user, ApplyToJobListener applyToJobListener) {
         User mUser = user;
         String btngan = user.getUid();
         getDataBaseReference("posts").child(job.getJobId()).child("appliedUsers").child(btngan)
                 .setValue(user, (DatabaseError databaseError, DatabaseReference databaseReference) -> {
                     if (databaseError == null) {
-                        Logging.longToast(context, context.getString(R.string.applied_successfully));
+                        applyToJobListener.onApplyToJob(true);
                     } else {
+                        applyToJobListener.onApplyToJob(false);
+
                         Logging.log(databaseError.getMessage());
                     }
                 });
@@ -246,6 +246,11 @@ public class FireBaseDataBaseHelper {
 
     public interface UserGettingListener {
         void onUserGot(User user);
+    }
+
+    private ApplyToJobListener applyToJobListener;
+    public interface ApplyToJobListener{
+        void onApplyToJob(boolean isSuccessful);
     }
 
 }

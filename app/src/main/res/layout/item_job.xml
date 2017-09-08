@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center_vertical"
+    android:background="@drawable/item_selector"
     android:padding="@dimen/activity_horizontal_margin">
 
     <com.jobease.www.jobease.Utilities.RoundedImageView
@@ -21,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/rv_userImage"
         android:layout_toRightOf="@+id/rv_userImage"
-        android:text="jahsjahsjas" />
+        tools:text="jahsjahsjas" />
 
     <TextView
         android:id="@+id/tv_jobTitle"
@@ -31,7 +33,7 @@
         android:layout_below="@+id/tv_userName"
         android:layout_toEndOf="@+id/rv_userImage"
         android:layout_toRightOf="@+id/rv_userImage"
-        android:text="jahsjahsjas"
+        tools:text="jahsjahsjas"
         android:textColor="@android:color/black" />
 
     <ImageButton
@@ -51,7 +53,7 @@
         android:layout_below="@+id/tv_jobTitle"
         android:layout_toEndOf="@+id/rv_userImage"
         android:layout_toRightOf="@+id/rv_userImage"
-        android:text="jahsjahsjas" />
+        tools:text="jahsjahsjas" />
 
     <TextView
         android:id="@+id/tv_jobDescription"
@@ -61,6 +63,6 @@
         android:layout_toEndOf="@+id/rv_userImage"
         android:layout_toRightOf="@+id/rv_userImage"
         android:inputType="textMultiLine"
-        android:maxLines="3"
-        android:text="jahsjahsjas" />
+        android:maxLines="2"
+        tools:text="jahsjahsjas" />
 </RelativeLayout>

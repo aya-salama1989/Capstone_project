@@ -22,7 +22,7 @@ import static com.jobease.www.jobease.database.FireBaseDataBaseHelper.rateAJob;
 import static com.jobease.www.jobease.database.FireBaseDataBaseHelper.reportAJob;
 
 
-public class SeekerJobActions extends DialogFragment implements FireBaseDataBaseHelper.UserGettingListener {
+public class SeekerJobActions extends DialogFragment implements FireBaseDataBaseHelper.UserGettingListener, FireBaseDataBaseHelper.ApplyToJobListener {
     private static final String JOB_OBJECT = "jobObject";
     private DialogActionsListener dialogActionsListener;
     private String object;
@@ -79,9 +79,19 @@ public class SeekerJobActions extends DialogFragment implements FireBaseDataBase
     public void onUserGot(User user) {
         User mUser = user;
         if (user != null) {
-            applyToAJob(job, user, getActivity());
+            applyToAJob(job, user, this);
         } else {
             Logging.log("null user");
         }
+    }
+
+    @Override
+    public void onApplyToJob(boolean isSuccessful) {
+        if (isSuccessful) {
+            if (isAdded())
+                Logging.shortToast(getActivity(), getString(R.string.applied_successfully));
+            dismiss();
+        }
+
     }
 }

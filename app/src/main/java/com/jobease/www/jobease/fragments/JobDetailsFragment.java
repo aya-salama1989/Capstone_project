@@ -1,5 +1,6 @@
 package com.jobease.www.jobease.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.jobease.www.jobease.R;
 import com.jobease.www.jobease.Utilities.Logging;
 import com.jobease.www.jobease.Utilities.UserSettings;
+import com.jobease.www.jobease.activities.HomeActivity;
 import com.jobease.www.jobease.database.FireBaseDataBaseHelper;
 import com.jobease.www.jobease.models.Job;
 import com.jobease.www.jobease.models.User;
@@ -25,7 +27,8 @@ import static com.jobease.www.jobease.database.FireBaseDataBaseHelper.applyToAJo
 import static com.jobease.www.jobease.database.FireBaseDataBaseHelper.getUser;
 
 
-public class JobDetailsFragment extends Fragment implements FireBaseDataBaseHelper.UserGettingListener {
+public class JobDetailsFragment extends Fragment implements FireBaseDataBaseHelper.UserGettingListener,
+        FireBaseDataBaseHelper.ApplyToJobListener {
 
     private static final String JOB_DATA = "job_data";
 
@@ -103,7 +106,19 @@ public class JobDetailsFragment extends Fragment implements FireBaseDataBaseHelp
 
     @Override
     public void onUserGot(User user) {
-        applyToAJob(job, user, getActivity());
-        getActivity().onBackPressed();
+        applyToAJob(job, user, this);
+
+    }
+
+    @Override
+    public void onApplyToJob(boolean isSuccessful) {
+        if (isSuccessful) {
+            Logging.shortToast(getActivity(), getString(R.string.applied_successfully));
+            
+            Intent intent = new Intent(getActivity(), HomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+
     }
 }
