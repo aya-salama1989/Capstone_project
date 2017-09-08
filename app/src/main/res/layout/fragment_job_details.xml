@@ -4,10 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--<include-->
-        <!--android:id="@+id/tbar"-->
-        <!--layout="@layout/main_tool_bar" />-->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -64,39 +60,5 @@
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:contentDescription="@string/apply_to_job"
         android:text="@string/apply" />
-
-    <!--<LinearLayout-->
-    <!--android:id="@+id/user_layout"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_alignParentBottom="true"-->
-    <!--android:orientation="horizontal">-->
-
-    <!--<com.jobease.www.jobease.Utilities.RoundedImageView-->
-    <!--android:layout_width="@dimen/avatar_dimensions"-->
-    <!--android:layout_height="@dimen/avatar_dimensions"-->
-    <!--android:layout_marginRight="@dimen/activity_horizontal_margin" />-->
-
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:orientation="vertical">-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/user_name"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginBottom="@dimen/xx_small"-->
-    <!--android:textAppearance="?android:textAppearanceSmall"-->
-    <!--tools:text="I am job description" />-->
-
-    <!--<RatingBar-->
-    <!--android:id="@+id/rating_bar"-->
-    <!--style="?android:attr/ratingBarStyleIndicator"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:isIndicator="true" />-->
-    <!--</LinearLayout>-->
-    <!--</LinearLayout>-->
 
 </RelativeLayout>

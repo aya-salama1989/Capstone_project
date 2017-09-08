@@ -8,8 +8,8 @@
 
     <include layout="@layout/main_tool_bar" />
 
-<FrameLayout
-    android:id="@+id/fragment_placeHolder"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"/>
+    <FrameLayout
+        android:id="@+id/fragment_placeHolder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

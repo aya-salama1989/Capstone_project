@@ -10,6 +10,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        app:layout_scrollFlags="scroll|enterAlways|snap"
-        />
+        app:layout_scrollFlags="scroll|enterAlways|snap" />
 </android.support.design.widget.AppBarLayout>

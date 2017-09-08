@@ -13,8 +13,9 @@ public final class Logging {
     }
 
     public static void log(String s) {
-        Log.e("TAG: " , s);
+        Log.e("TAG: ", s);
     }
+
     public static void shortToast(Context context, String s) {
         Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
     }

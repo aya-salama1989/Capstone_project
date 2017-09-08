@@ -101,13 +101,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center">
+
                 <Button
                     android:id="@+id/btn_add_job"
                     style="@style/dark_lightText_button_large"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:text="@string/add"
                     android:contentDescription="@string/add_new_job"
+                    android:text="@string/add"
                     android:visibility="gone" />
 
                 <Button
@@ -115,8 +116,8 @@
                     style="@style/dark_lightText_button_large"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:text="@string/edit_job"
                     android:contentDescription="@string/edit_job"
+                    android:text="@string/edit_job"
                     android:visibility="gone" />
             </FrameLayout>
 

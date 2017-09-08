@@ -13,7 +13,6 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -101,16 +100,13 @@ public class LoginActivity extends AppCompatActivity {
                         FirebaseUser user = mAuth.getCurrentUser();
                         updateUI(user);
                     } else {
-                        Toast.makeText(LoginActivity.this, "Authentication failed.",
+                        Toast.makeText(LoginActivity.this, getString(R.string.auth_fail),
                                 Toast.LENGTH_SHORT).show();
                         updateUI(null);
                     }
-                }).addOnFailureListener(this, new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Logging.log("Exception: " + e.getMessage());
-                e.printStackTrace();
-            }
+                }).addOnFailureListener(this, (@NonNull Exception e) -> {
+            Logging.log("Exception: " + e.getMessage());
+            e.printStackTrace();
         });
     }
 

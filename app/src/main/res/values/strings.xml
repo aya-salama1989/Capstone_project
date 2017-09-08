@@ -88,6 +88,7 @@
     <string name="edit_success">User Editted Successfully</string>
     <string name="log_out">Log out</string>
     <string name="my_jobs">My Jobs</string>
+    <string name="auth_fail">Authentication failed.</string>
 
 
 </resources>

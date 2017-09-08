@@ -22,6 +22,17 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class Job implements Parcelable {
 
+    public static final Creator<Job> CREATOR = new Creator<Job>() {
+        @Override
+        public Job createFromParcel(Parcel in) {
+            return new Job(in);
+        }
+
+        @Override
+        public Job[] newArray(int size) {
+            return new Job[size];
+        }
+    };
     public Map<String, User> appliedUsers = new HashMap<>();
     private String title;
     private String salary;
@@ -41,7 +52,6 @@ public class Job implements Parcelable {
     private String userImage;
     private String userName;
 
-
     protected Job(Parcel in) {
         title = in.readString();
         salary = in.readString();
@@ -60,26 +70,6 @@ public class Job implements Parcelable {
         noOfReports = in.readInt();
         userImage = in.readString();
         userName = in.readString();
-    }
-
-    public static final Creator<Job> CREATOR = new Creator<Job>() {
-        @Override
-        public Job createFromParcel(Parcel in) {
-            return new Job(in);
-        }
-
-        @Override
-        public Job[] newArray(int size) {
-            return new Job[size];
-        }
-    };
-
-    public Map<String, User> getAppliedUsers() {
-        return appliedUsers;
-    }
-
-    public void setAppliedUsers(Map<String, User> appliedUsers) {
-        this.appliedUsers = appliedUsers;
     }
 
     public Job() {
@@ -147,7 +137,13 @@ public class Job implements Parcelable {
 
     }
 
+    public Map<String, User> getAppliedUsers() {
+        return appliedUsers;
+    }
 
+    public void setAppliedUsers(Map<String, User> appliedUsers) {
+        this.appliedUsers = appliedUsers;
+    }
 
     public String getJobId() {
         return jobId;

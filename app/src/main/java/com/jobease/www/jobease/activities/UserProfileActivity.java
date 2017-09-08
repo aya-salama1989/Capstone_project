@@ -6,9 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import com.jobease.www.jobease.R;
 import com.jobease.www.jobease.fragments.ProfileFragment;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class UserProfileActivity extends AppCompatActivity {
     private String userData;
 

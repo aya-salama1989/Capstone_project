@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.jobease.www.jobease.R;
 import com.jobease.www.jobease.Utilities.Logging;
-import com.jobease.www.jobease.activities.JobAppliersActivity;
 import com.jobease.www.jobease.activities.UserProfileActivity;
 import com.jobease.www.jobease.adapters.UsersRecyclerAdapter;
 import com.jobease.www.jobease.models.User;
@@ -33,17 +32,14 @@ import static com.jobease.www.jobease.adapters.UsersRecyclerAdapter.BUTTON_CALL;
 import static com.jobease.www.jobease.adapters.UsersRecyclerAdapter.ITEM_CLICK;
 
 
-public class JobAppliersFragment extends Fragment  implements UsersRecyclerAdapter.UserClickListener{
+public class JobAppliersFragment extends Fragment implements UsersRecyclerAdapter.UserClickListener {
 
     private static final String APPLIED_USERS = "applied_users";
-
-    private View v;
-
     @BindView(R.id.rv_appliers)
     RecyclerView recyclerView;
-
     @BindView(R.id.empty_placeHolder)
     TextView textView;
+    private View v;
     private UsersRecyclerAdapter usersRecyclerAdapter;
     private LinearLayoutManager linearLayoutManager;
     private int scrollPosition, selectedPosition;
@@ -88,6 +84,7 @@ public class JobAppliersFragment extends Fragment  implements UsersRecyclerAdapt
         }
 
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -132,6 +129,7 @@ public class JobAppliersFragment extends Fragment  implements UsersRecyclerAdapt
             Logging.log(e.getMessage());
         }
     }
+
     @Override
     public void onUserClickListener(int Type, int position) {
         switch (Type) {

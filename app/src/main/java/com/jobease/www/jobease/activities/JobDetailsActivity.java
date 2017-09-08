@@ -1,8 +1,6 @@
 package com.jobease.www.jobease.activities;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -31,12 +29,11 @@ public class JobDetailsActivity extends AppCompatActivity {
         }
         setToolBar();
 
-            jobDetailsFragment = JobDetailsFragment.newInstance(data);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_placeHolder, jobDetailsFragment).commit();
+        jobDetailsFragment = JobDetailsFragment.newInstance(data);
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_placeHolder, jobDetailsFragment).commit();
 
 
     }
-
 
 
     private void setToolBar() {

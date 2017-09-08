@@ -67,8 +67,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:contentDescription="@string/detect_my_location"
             android:background="@android:color/transparent"
+            android:contentDescription="@string/detect_my_location"
             android:src="@drawable/ic_detect_location" />
 
         <TextView

@@ -114,7 +114,7 @@ public class JobDetailsFragment extends Fragment implements FireBaseDataBaseHelp
     public void onApplyToJob(boolean isSuccessful) {
         if (isSuccessful) {
             Logging.shortToast(getActivity(), getString(R.string.applied_successfully));
-            
+
             Intent intent = new Intent(getActivity(), HomeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

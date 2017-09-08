@@ -5,5 +5,5 @@ package com.jobease.www.jobease.fragments;
  */
 
 public interface FragmentInteractionListener {
-    void onInteraction(Object ... data);
+    void onInteraction(Object... data);
 }

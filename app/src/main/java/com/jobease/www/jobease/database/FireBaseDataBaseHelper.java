@@ -26,6 +26,7 @@ import java.util.ArrayList;
 public class FireBaseDataBaseHelper {
     static DatabaseReference postsDBRef, usersDBRef;
     static FirebaseDatabase firebaseDatabase;
+    private ApplyToJobListener applyToJobListener;
 
     public static FirebaseDatabase getFireBaseDataBaseInstance() {
         //DB instantiated
@@ -202,7 +203,6 @@ public class FireBaseDataBaseHelper {
         });
     }
 
-
     public static void editAJob(Job job) {
         getDataBaseReference("posts").child(job.getJobId()).setValue(job);
     }
@@ -239,7 +239,6 @@ public class FireBaseDataBaseHelper {
                 });
     }
 
-
     public interface JobsDataChangeListener {
         void onJobsDataChange(ArrayList<Job> jobs, int type);
     }
@@ -248,8 +247,7 @@ public class FireBaseDataBaseHelper {
         void onUserGot(User user);
     }
 
-    private ApplyToJobListener applyToJobListener;
-    public interface ApplyToJobListener{
+    public interface ApplyToJobListener {
         void onApplyToJob(boolean isSuccessful);
     }
 

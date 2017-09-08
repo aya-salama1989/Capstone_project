@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
     android:background="@drawable/item_selector"
+    android:gravity="center_vertical"
     android:padding="@dimen/activity_horizontal_margin">
 
     <com.jobease.www.jobease.Utilities.RoundedImageView
@@ -12,8 +12,7 @@
         android:layout_height="@dimen/avatar_dimensions"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:contentDescription="@string/user_image"
-       />
+        android:contentDescription="@string/user_image" />
 
     <TextView
         android:id="@+id/tv_userName"
@@ -45,15 +44,15 @@
         android:layout_toRightOf="@+id/rv_userImage"
         android:contentDescription="@string/user_rating"
         android:isIndicator="true" />
-<!--
-    <ImageButton
-        android:id="@+id/btn_Settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:background="@android:color/transparent"
-        android:src="@drawable/settings" />-->
+    <!--
+        <ImageButton
+            android:id="@+id/btn_Settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@android:color/transparent"
+            android:src="@drawable/settings" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -68,18 +67,10 @@
             android:layout_height="@dimen/button_height"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_call"
             android:contentDescription="@string/call_candidate"
+            android:src="@drawable/ic_call"
             android:text="@string/call" />
 
-        <!--<ImageButton-->
-            <!--android:id="@+id/btn_hire"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="@dimen/button_height"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="@android:color/transparent"-->
-            <!--android:src="@drawable/ic_check"-->
-            <!--android:text="@string/hire" />-->
     </LinearLayout>
 
 

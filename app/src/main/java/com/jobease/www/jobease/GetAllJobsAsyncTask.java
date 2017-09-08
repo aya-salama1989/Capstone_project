@@ -17,7 +17,7 @@ public class GetAllJobsAsyncTask extends AsyncTask<Void, Integer, ArrayList<Job>
     private GetAllJobsListener getAllJobsListener;
 
     public GetAllJobsAsyncTask(GetAllJobsListener getAllJobsListener) {
-this.getAllJobsListener = getAllJobsListener;
+        this.getAllJobsListener = getAllJobsListener;
     }
 
     @Override

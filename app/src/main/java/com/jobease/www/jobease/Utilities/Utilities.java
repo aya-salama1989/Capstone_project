@@ -29,15 +29,6 @@ public class Utilities extends Activity {
         return my.format(d);
     }
 
-    public void setStatusBarColor(int color, Activity activity) {
-        Window window = activity.getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(activity.getResources().getColor(color));
-        }
-    }
-
     /*
 does this app exists on Phone*/
     public static boolean appInstalledOrNot(String uri, Context context) {
@@ -59,8 +50,6 @@ does this app exists on Phone*/
         context.startActivity(i);
     }
 
-
-
     public static void shareApp(Context context) {
         Intent intent = new Intent();
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
@@ -70,16 +59,6 @@ does this app exists on Phone*/
                 + "https://play.google.com/store/apps/details?id=" + context.getPackageName());
         context.startActivity(Intent.createChooser(intent, "Share MazzadOnline with friends"));
     }
-
-/*
-   Share the App
-*/
-
-
-
-    /*
-   copy something to clipBoard
-*/
 
     public static void rateApp(Context context) {
         Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
@@ -97,14 +76,21 @@ does this app exists on Phone*/
         }
     }
 
+/*
+   Share the App
+*/
 
-    public static void openMapIntentWithMarker(Activity context, String name, String latitude, String longetude){
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:"+latitude+","+longetude
-                +"?q="+latitude+","+longetude+"(Label"+name+")"));
+
+
+    /*
+   copy something to clipBoard
+*/
+
+    public static void openMapIntentWithMarker(Activity context, String name, String latitude, String longetude) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:" + latitude + "," + longetude
+                + "?q=" + latitude + "," + longetude + "(Label" + name + ")"));
         context.startActivity(intent);
     }
-
-
 
     public static AlertDialog createAlertDialogue(Context context, String Title, String Message,
                                                   String negativeBtnText,
@@ -120,7 +106,14 @@ does this app exists on Phone*/
         return alertDialog;
     }
 
-
+    public void setStatusBarColor(int color, Activity activity) {
+        Window window = activity.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.setStatusBarColor(activity.getResources().getColor(color));
+        }
+    }
 
 
 }
