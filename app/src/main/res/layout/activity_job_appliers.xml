@@ -9,23 +9,8 @@
     <include layout="@layout/main_tool_bar" />
 
     <FrameLayout
+        android:id="@+id/fragment_placeHolder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/empty_placeHolder"
-            android:visibility="gone"
-            android:textColor="@android:color/holo_blue_dark"
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/no_one"
-            android:text="@string/no_one"/>
+        android:layout_height="match_parent"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:visibility="gone"
-        android:id="@+id/rv_appliers"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    </FrameLayout>
 </LinearLayout>

@@ -66,7 +66,6 @@ public class UserDataActivity extends AppCompatActivity
     private User user = new User();
     private int _birthYear, _month, _day;
     private UserSettings userSettings = new UserSettings();
-    //    private AppSettings appSettings = new AppSettings();
     private double longitude, latitude;
 
     private FusedLocationProviderClient mFusedLocationClient;
