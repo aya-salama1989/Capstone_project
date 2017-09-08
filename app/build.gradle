@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'AyaSalama'
             keyPassword 'Aa724716'
-            storeFile file("$rootdir/keystore.jks")
+            storeFile file("$rootDir/keystore.jks")
             storePassword 'Aa724716'
         }
     }
