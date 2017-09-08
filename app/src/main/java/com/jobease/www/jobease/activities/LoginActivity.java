@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -14,6 +13,7 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -80,7 +80,8 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(FacebookException exception) {
-                Logging.log(exception.getMessage().toString());
+                Logging.log("FacebookException: " + exception.getMessage());
+                exception.printStackTrace();
             }
         });
     }
@@ -93,7 +94,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void handleFacebookAccessToken(AccessToken token) {
-        Log.d(TAG, "handleFacebookAccessToken:" + token);
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, (@NonNull Task<AuthResult> task) -> {
@@ -105,7 +105,13 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                         updateUI(null);
                     }
-                });
+                }).addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Logging.log("Exception: " + e.getMessage());
+                e.printStackTrace();
+            }
+        });
     }
 
     private void updateUI(FirebaseUser user) {

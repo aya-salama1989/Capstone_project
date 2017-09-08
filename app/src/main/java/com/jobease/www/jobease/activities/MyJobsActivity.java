@@ -3,17 +3,14 @@ package com.jobease.www.jobease.activities;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.google.gson.Gson;
 import com.jobease.www.jobease.R;
 import com.jobease.www.jobease.database.FireBaseDataBaseHelper;
-import com.jobease.www.jobease.fragments.AddJobFragment;
 import com.jobease.www.jobease.fragments.FragmentInteractionListener;
 import com.jobease.www.jobease.fragments.JobAppliersFragment;
-import com.jobease.www.jobease.fragments.JobDetailsFragment;
 import com.jobease.www.jobease.fragments.MyJobsFragment;
 import com.jobease.www.jobease.models.Job;
 import com.jobease.www.jobease.models.User;
@@ -65,10 +62,10 @@ public class MyJobsActivity extends AppCompatActivity implements FragmentInterac
             String jobData = (String) data[0];
             if (jobData.equalsIgnoreCase("update data")) {
                 new MyAsyncTask().execute();
-            }else {
+            } else {
                 if (getResources().getBoolean(R.bool.twoPaneMode)) {
                     JobAppliersFragment jobAppliersFragment
-                            = JobAppliersFragment.newInstance(jobData.toString());
+                            = JobAppliersFragment.newInstance(jobData);
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.details_placeHolder, jobAppliersFragment).commit();
                 }
@@ -96,18 +93,20 @@ public class MyJobsActivity extends AppCompatActivity implements FragmentInterac
             fragment = MyJobsFragment.newInstance(myJobs);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_placeHolder, fragment).commit();
-            if (getResources().getBoolean(R.bool.twoPaneMode)) {
-                Gson gson = new Gson();
-                String json = gson.toJson(myJobs.get(0).getAppliedUsers());
-                JobAppliersFragment jobAppliersFragment = JobAppliersFragment.newInstance(json.toString());
-                getSupportFragmentManager().beginTransaction().replace(R.id.details_placeHolder, jobAppliersFragment).commit();
-            }
-        }
 
+        }
 
         @Override
         public void onJobsDataChange(ArrayList<Job> jobs, int type) {
             myJobs.addAll(jobs);
+            if (getResources().getBoolean(R.bool.twoPaneMode)) {
+                Gson gson = new Gson();
+                Job job = myJobs.get(0);
+                Map<String, User> users = job.getAppliedUsers();
+                String json = gson.toJson(users);
+                JobAppliersFragment jobAppliersFragment = JobAppliersFragment.newInstance(json.toString());
+                getSupportFragmentManager().beginTransaction().replace(R.id.details_placeHolder, jobAppliersFragment).commit();
+            }
         }
     }
 }

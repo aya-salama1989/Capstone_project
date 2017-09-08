@@ -182,7 +182,6 @@ public class HomeActivity extends AppCompatActivity
     public void onInteraction(Object... data) {
         if (data != null) {
             String jobData = (String) data[0];
-
             if (jobData.equalsIgnoreCase("update data")) {
                 getAllJobs(this);
             }
@@ -191,7 +190,6 @@ public class HomeActivity extends AppCompatActivity
                 if (jobData.equalsIgnoreCase("1")) {
                     fragmentTransaction.replace(R.id.details_frag, AddJobFragment.newInstance("")).commit();
                 } else {
-                    //TODO: el click msh shghala leeh
                     fragmentTransaction.replace(R.id.details_frag, JobDetailsFragment.newInstance(jobData)).commit();
                 }
             }

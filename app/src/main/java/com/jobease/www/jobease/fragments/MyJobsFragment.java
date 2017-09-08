@@ -121,11 +121,12 @@ public class MyJobsFragment extends Fragment implements
             posterJobActions.newInstance(this, jsonObject).show(getChildFragmentManager(), "Poster_Actions");
         } else {
             selectionPosition = position;
+            Map<String, User> users = myJobs.get(position).getAppliedUsers();
+            String json = gson.toJson(users);
             if (getResources().getBoolean(R.bool.twoPaneMode)) {
-                fragmentInteractionListener.onInteraction(jsonObject);
+                fragmentInteractionListener.onInteraction(json.toString());
             } else {
-                Map<String, User> users = myJobs.get(position).getAppliedUsers();
-                String json = gson.toJson(users);
+
                 Intent intent = new Intent(getActivity(), JobAppliersActivity.class);
                 intent.putExtra("appliersList", json.toString());
                 startActivity(intent);
